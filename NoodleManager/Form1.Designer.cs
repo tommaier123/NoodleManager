@@ -36,7 +36,7 @@
             this.settingsMenu = new NoodleManager.SettingsMenu();
             this.SuspendLayout();
             // 
-            // Songs
+            // songsButton
             // 
             this.songsButton.AutoSize = true;
             this.songsButton.Location = new System.Drawing.Point(13, 13);
@@ -47,7 +47,7 @@
             this.songsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.songsButton.Click += new System.EventHandler(this.Songs_Click);
             // 
-            // Mods
+            // modsButton
             // 
             this.modsButton.AutoSize = true;
             this.modsButton.Location = new System.Drawing.Point(56, 13);
@@ -58,7 +58,7 @@
             this.modsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.modsButton.Click += new System.EventHandler(this.Mods_Click);
             // 
-            // Settings
+            // settingsButton
             // 
             this.settingsButton.Location = new System.Drawing.Point(95, 13);
             this.settingsButton.Name = "settingsButton";
@@ -96,9 +96,9 @@
             this.settingsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsMenu.BackColor = System.Drawing.SystemColors.Control;
+            this.settingsMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.settingsMenu.Enabled = false;
-            this.settingsMenu.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.settingsMenu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.settingsMenu.Location = new System.Drawing.Point(0, 30);
             this.settingsMenu.Name = "settingsMenu";
             this.settingsMenu.Size = new System.Drawing.Size(800, 420);
@@ -109,6 +109,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.modsButton);
@@ -116,6 +117,7 @@
             this.Controls.Add(this.songMenu);
             this.Controls.Add(this.modMenu);
             this.Controls.Add(this.settingsMenu);
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Name = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
