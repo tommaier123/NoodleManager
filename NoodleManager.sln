@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoodleManager", "NoodleManager\NoodleManager.csproj", "{F95A783F-7131-4BE5-8923-800D821526B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoodleManager", "NoodleManager\NoodleManager.csproj", "{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F95A783F-7131-4BE5-8923-800D821526B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95A783F-7131-4BE5-8923-800D821526B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F95A783F-7131-4BE5-8923-800D821526B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F95A783F-7131-4BE5-8923-800D821526B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {184D2540-8198-4C5B-A4BC-66214949635D}
+		SolutionGuid = {6829776C-1DB9-4530-BAB8-73E5649A427A}
 	EndGlobalSection
 EndGlobal
