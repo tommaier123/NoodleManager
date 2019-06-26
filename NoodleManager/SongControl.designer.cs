@@ -139,9 +139,10 @@
             // percentage
             // 
             this.percentage.AutoSize = true;
+            this.percentage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.percentage.Location = new System.Drawing.Point(526, 69);
             this.percentage.Name = "percentage";
-            this.percentage.Size = new System.Drawing.Size(27, 13);
+            this.percentage.Size = new System.Drawing.Size(55, 25);
             this.percentage.TabIndex = 11;
             this.percentage.Text = "50%";
             this.percentage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -149,7 +150,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(571, 58);
+            this.progressBar1.Location = new System.Drawing.Point(583, 71);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(100, 23);
             this.progressBar1.TabIndex = 12;

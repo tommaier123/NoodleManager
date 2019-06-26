@@ -15,6 +15,14 @@ namespace NoodleManager
 {
     public partial class Form1 : Form
     {
+        //position, size of error
+        //search
+        //dynamic design
+
+
+
+
+
 
         public static string baseurl = "https://synthriderz.com";
         public static string path = @"C:\Users\BFM2FE\AppData\Roaming\download";
