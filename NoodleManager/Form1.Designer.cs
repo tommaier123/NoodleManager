@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace NoodleManager
+﻿namespace NoodleManager
 {
     partial class Form1
     {
@@ -31,30 +28,95 @@ namespace NoodleManager
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.songsButton = new System.Windows.Forms.Label();
+            this.modsButton = new System.Windows.Forms.Label();
+            this.settingsButton = new System.Windows.Forms.Label();
+            this.songMenu = new NoodleManager.TableMenu();
+            this.modMenu = new NoodleManager.TableMenu();
+            this.settingsMenu = new NoodleManager.SettingsMenu();
             this.SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // Songs
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(874, 454);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this.songsButton.AutoSize = true;
+            this.songsButton.Location = new System.Drawing.Point(13, 13);
+            this.songsButton.Name = "songsButton";
+            this.songsButton.Size = new System.Drawing.Size(37, 13);
+            this.songsButton.TabIndex = 1;
+            this.songsButton.Text = "Songs";
+            this.songsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.songsButton.Click += new System.EventHandler(this.Songs_Click);
+            // 
+            // Mods
+            // 
+            this.modsButton.AutoSize = true;
+            this.modsButton.Location = new System.Drawing.Point(56, 13);
+            this.modsButton.Name = "modsButton";
+            this.modsButton.Size = new System.Drawing.Size(33, 13);
+            this.modsButton.TabIndex = 2;
+            this.modsButton.Text = "Mods";
+            this.modsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.modsButton.Click += new System.EventHandler(this.Mods_Click);
+            // 
+            // Settings
+            // 
+            this.settingsButton.Location = new System.Drawing.Point(95, 13);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(45, 15);
+            this.settingsButton.TabIndex = 0;
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.settingsButton.Click += new System.EventHandler(this.Settings_Click);
+            // 
+            // songMenu
+            // 
+            this.songMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.songMenu.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
+            this.songMenu.Location = new System.Drawing.Point(0, 30);
+            this.songMenu.Name = "songMenu";
+            this.songMenu.Size = new System.Drawing.Size(800, 420);
+            this.songMenu.TabIndex = 0;
+            // 
+            // modMenu
+            // 
+            this.modMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.modMenu.Enabled = false;
+            this.modMenu.Location = new System.Drawing.Point(0, 30);
+            this.modMenu.Name = "modMenu";
+            this.modMenu.Size = new System.Drawing.Size(800, 420);
+            this.modMenu.TabIndex = 0;
+            this.modMenu.Visible = false;
+            // 
+            // settingsMenu
+            // 
+            this.settingsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.settingsMenu.BackColor = System.Drawing.SystemColors.Control;
+            this.settingsMenu.Enabled = false;
+            this.settingsMenu.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.settingsMenu.Location = new System.Drawing.Point(0, 30);
+            this.settingsMenu.Name = "settingsMenu";
+            this.settingsMenu.Size = new System.Drawing.Size(800, 420);
+            this.settingsMenu.TabIndex = 0;
+            this.settingsMenu.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(874, 454);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.settingsButton);
+            this.Controls.Add(this.modsButton);
+            this.Controls.Add(this.songsButton);
+            this.Controls.Add(this.songMenu);
+            this.Controls.Add(this.modMenu);
+            this.Controls.Add(this.settingsMenu);
             this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -62,8 +124,12 @@ namespace NoodleManager
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private FolderBrowserDialog folderBrowserDialog1;
+        private TableMenu songMenu;
+        private TableMenu modMenu;
+        private SettingsMenu settingsMenu;
+        private System.Windows.Forms.Label songsButton;
+        private System.Windows.Forms.Label modsButton;
+        private System.Windows.Forms.Label settingsButton;
     }
 }
 
