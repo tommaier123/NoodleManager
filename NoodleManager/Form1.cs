@@ -17,6 +17,7 @@ namespace NoodleManager
     {
         //position, size of error
         //search
+        //custom disabled with redownload, delete option
         //dynamic design
 
 
@@ -24,17 +25,27 @@ namespace NoodleManager
 
 
 
-        public static string baseurl = "https://synthriderz.com";
-        public static string path = @"C:\Users\BFM2FE\AppData\Roaming\download";
+        public const string baseurl = "https://synthriderz.com";
+        public const string beatmapsurl = "/api/beatmaps";
+        public const string path = @"C:\Users\BFM2FE\AppData\Roaming\download";
 
         public Form1()
         {
             InitializeComponent();
+            this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist" };
+
             GlobalVariables.ReadSettings();
 
             this.FormClosing += FormclosingCallback;
 
-            string content = new WebClient().DownloadString("https://synthriderz.com/api/beatmaps");
+            LoadSongs(baseurl + beatmapsurl);
+        }
+
+        private void LoadSongs(string path)
+        {
+            this.songMenu.tableLayoutPanel.Controls.Clear();
+
+            string content = new WebClient().DownloadString(path);
             SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
 
             foreach (SongInfo item in items)
@@ -145,6 +156,25 @@ namespace NoodleManager
 
             settingsMenu.Enabled = true;
             settingsMenu.Visible = true;
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            string mode = "q";
+            if (this.searchMode.SelectedIndex == 1)
+            {
+                mode = "title";
+            }
+            else if (this.searchMode.SelectedIndex == 2)
+            {
+                mode = "mapper";
+            }
+            else if (this.searchMode.SelectedIndex == 3)
+            {
+                mode = "artist";
+            }
+
+            LoadSongs(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
         }
     }
 }
