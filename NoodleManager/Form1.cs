@@ -23,6 +23,8 @@ namespace NoodleManager
 
 
 
+        private const int cGrip = 10;      // Grip size
+        private const int cCaption = 48;   // Caption bar height;
 
 
         public const string baseurl = "https://synthriderz.com";
@@ -32,6 +34,11 @@ namespace NoodleManager
         public Form1()
         {
             InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
+
             this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist" };
 
             GlobalVariables.ReadSettings();
@@ -40,6 +47,102 @@ namespace NoodleManager
 
             LoadSongs(baseurl + beatmapsurl);
         }
+
+
+
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            // Rectangle rc = new Rectangle(this.ClientSize.Width - cGrip, this.ClientSize.Height - cGrip, cGrip, cGrip);
+            // ControlPaint.DrawSizeGrip(e.Graphics, this.BackColor, rc);
+            //rc = new Rectangle(0, 0, this.ClientSize.Width, cCaption);
+            //e.Graphics.FillRectangle(Brushes.DarkBlue, rc);
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x84)
+            {  // Trap WM_NCHITTEST
+                Point pos = new Point(m.LParam.ToInt32());
+                pos = this.PointToClient(pos);
+                bool right = false;
+                bool left = false;
+                bool top = false;
+                bool bottom = false;
+
+                if (pos.X >= this.ClientSize.Width - cGrip)
+                {
+                    right = true;
+                }
+                else if (pos.X < cGrip)
+                {
+                    left = true;
+                }
+
+                if (pos.Y >= this.ClientSize.Height - cGrip)
+                {
+                    bottom = true;
+                }
+                else if (pos.Y <  cGrip)
+                {
+                    top = true;
+                }
+
+                if (right)
+                {
+                    if (bottom)
+                    {
+                        m.Result = (IntPtr)17;  // HTBOTTOMRIGHT
+                        return;
+                    }
+                    else if (top)
+                    {
+                        m.Result = (IntPtr)14;  // HTTOPRIGHT
+                        return;
+                    }
+                    else
+                    {
+                        m.Result = (IntPtr)11;  // HTRIGHT
+                        return;
+                    }
+                } else if (left)
+                {
+                    if (bottom)
+                    {
+                        m.Result = (IntPtr)16;  // HTBOTTOMLEFT
+                        return;
+                    }
+                    else if (top)
+                    {
+                        m.Result = (IntPtr)13;  // HTTOPLEFT
+                        return;
+                    }
+                    else
+                    {
+                        m.Result = (IntPtr)10;  // HTLEFT
+                        return;
+                    }
+                }
+                else if(bottom)
+                {
+                    m.Result = (IntPtr)15;  // HTBOTTOM
+                    return;
+                }
+                else if (top)
+                {
+                    m.Result = (IntPtr)12;  // HTTOP
+                    return;
+                }
+                else if(pos.Y < cCaption)
+                {
+                    m.Result = (IntPtr)2;  // HTCAPTION
+                    return;
+                }
+            }
+            base.WndProc(ref m);
+        }
+
+
 
         private void LoadSongs(string path)
         {
@@ -175,6 +278,11 @@ namespace NoodleManager
             }
 
             LoadSongs(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
