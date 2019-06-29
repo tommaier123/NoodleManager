@@ -90,7 +90,7 @@
             this.Controls.Add(this.textBox1);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Name = "SettingsMenu";
-            this.Size = new System.Drawing.Size(800, 420);
+            this.Size = new System.Drawing.Size(800, 400);
             this.ResumeLayout(false);
             this.PerformLayout();
 
