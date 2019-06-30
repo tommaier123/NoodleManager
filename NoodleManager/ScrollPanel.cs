@@ -56,6 +56,9 @@ namespace NoodleManager
                 Point temp = scrollControl.Location;
 
                 temp.Y = (int)(down_sloc.Y + scrollable * ((down_mloc.Y - e.Location.Y) / (double)scrollheight));
+
+                temp.Y = (temp.Y / 83) * 83;
+
                 if (temp.Y > 0)
                 {
                     temp.Y = 0;
@@ -65,7 +68,6 @@ namespace NoodleManager
                     temp.Y = -scrollable;
                 }
 
-                temp.Y = (temp.Y / 83) * 83;
                 this.scrollControl.Location = temp;
 
                 Point temp2 = this.scrollBar.grabber.Location;
@@ -93,6 +95,8 @@ namespace NoodleManager
                     temp.Y -= 83;
                 }
 
+                temp.Y = (temp.Y / 83) * 83;
+
                 if (temp.Y > 0)
                 {
                     temp.Y = 0;
@@ -102,7 +106,6 @@ namespace NoodleManager
                     temp.Y = -scrollable;
                 }
 
-                temp.Y = (temp.Y / 83) * 83;
                 this.scrollControl.Location = temp;
 
                 Point temp2 = this.scrollBar.grabber.Location;

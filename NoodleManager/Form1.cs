@@ -53,7 +53,7 @@ namespace NoodleManager
 
         private void ResizeEndCallback(object sender, EventArgs e)
         {
-            this.Size = new Size(this.Size.Width, (int)Math.Round(((this.Size.Height - 90f) / 83)) * 83 + 90);
+            //this.Size = new Size(this.Size.Width, (int)Math.Round(((this.Size.Height - 90f) / 83)) * 83 + 90);
         }
 
         protected override void WndProc(ref Message m)
