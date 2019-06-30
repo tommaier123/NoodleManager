@@ -60,7 +60,7 @@ namespace NoodleManager
             this.progressBar1.Value = e.ProgressPercentage;
         }
 
-        private void DownlaodCompletedCallback(object sender, AsyncCompletedEventArgs e)
+        private void DownlaodCompletedCallback(object sender, AsyncCompletedEventArgs e) 
         {
             progressBar1.Visible = false;
             GlobalVariables.clients.Remove((WebClient)sender);
