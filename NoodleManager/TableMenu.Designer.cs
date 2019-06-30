@@ -55,7 +55,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "TableMenu";
-            this.Size = new System.Drawing.Size(800, 400);
+            this.Size = new System.Drawing.Size(800, 498);
             this.Controls.SetChildIndex(this.tableLayoutPanel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
