@@ -37,7 +37,7 @@
             this.scrollBar.Dock = System.Windows.Forms.DockStyle.Right;
             this.scrollBar.Location = new System.Drawing.Point(130, 0);
             this.scrollBar.Name = "scrollBar";
-            this.scrollBar.Size = new System.Drawing.Size(20, 150);
+            this.scrollBar.Size = new System.Drawing.Size(20, 498);
             this.scrollBar.TabIndex = 0;
             // 
             // ScrollPanel

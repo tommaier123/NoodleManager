@@ -38,6 +38,8 @@
             this.modMenu = new NoodleManager.TableMenu();
             this.settingsMenu = new NoodleManager.SettingsMenu();
             this.button1 = new System.Windows.Forms.Button();
+            this.pictureBoxNM1 = new NoodleManager.PictureBoxNM();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM1)).BeginInit();
             this.SuspendLayout();
             // 
             // songsButton
@@ -105,11 +107,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.songMenu.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
-            this.songMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.songMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
             this.songMenu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.songMenu.Location = new System.Drawing.Point(10, 60);
+            this.songMenu.Location = new System.Drawing.Point(10, 80);
             this.songMenu.Name = "songMenu";
-            this.songMenu.Size = new System.Drawing.Size(800, 400);
+            this.songMenu.Size = new System.Drawing.Size(800, 498);
             this.songMenu.TabIndex = 0;
             // 
             // modMenu
@@ -117,11 +119,11 @@
             this.modMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.modMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.modMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
             this.modMenu.Enabled = false;
-            this.modMenu.Location = new System.Drawing.Point(10, 60);
+            this.modMenu.Location = new System.Drawing.Point(10, 80);
             this.modMenu.Name = "modMenu";
-            this.modMenu.Size = new System.Drawing.Size(800, 400);
+            this.modMenu.Size = new System.Drawing.Size(800, 498);
             this.modMenu.TabIndex = 0;
             this.modMenu.Visible = false;
             // 
@@ -130,12 +132,12 @@
             this.settingsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.settingsMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
             this.settingsMenu.Enabled = false;
             this.settingsMenu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.settingsMenu.Location = new System.Drawing.Point(10, 60);
+            this.settingsMenu.Location = new System.Drawing.Point(10, 80);
             this.settingsMenu.Name = "settingsMenu";
-            this.settingsMenu.Size = new System.Drawing.Size(800, 400);
+            this.settingsMenu.Size = new System.Drawing.Size(800, 498);
             this.settingsMenu.TabIndex = 0;
             this.settingsMenu.Visible = false;
             // 
@@ -149,12 +151,27 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
+            // pictureBoxNM1
+            // 
+            this.pictureBoxNM1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxNM1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.pictureBoxNM1.ErrorImage = null;
+            this.pictureBoxNM1.InitialImage = null;
+            this.pictureBoxNM1.Location = new System.Drawing.Point(0, 70);
+            this.pictureBoxNM1.Name = "pictureBoxNM1";
+            this.pictureBoxNM1.Size = new System.Drawing.Size(820, 518);
+            this.pictureBoxNM1.TabIndex = 7;
+            this.pictureBoxNM1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(820, 470);
+            this.ClientSize = new System.Drawing.Size(820, 588);
+            this.Controls.Add(this.pictureBoxNM1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.searchMode);
@@ -169,6 +186,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.Text = "NoodleManager";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,6 +204,7 @@
         private System.Windows.Forms.ComboBox searchMode;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button button1;
+        private PictureBoxNM pictureBoxNM1;
     }
 }
 

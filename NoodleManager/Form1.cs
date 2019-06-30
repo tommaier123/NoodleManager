@@ -21,10 +21,8 @@ namespace NoodleManager
         //dynamic design
 
 
-
-
         private const int cGrip = 10;      // Grip size
-        private const int cCaption = 48;   // Caption bar height;
+        private const int cCaption = 70;   // Caption bar height;
 
 
         public const string baseurl = "https://synthriderz.com";
@@ -34,6 +32,7 @@ namespace NoodleManager
         public Form1()
         {
             InitializeComponent();
+            this.pictureBoxNM1.SendToBack();
 
             this.FormBorderStyle = FormBorderStyle.None;
             this.DoubleBuffered = true;
@@ -45,18 +44,16 @@ namespace NoodleManager
 
             this.FormClosing += FormclosingCallback;
 
+            this.ResizeEnd += ResizeEndCallback;
+
             LoadSongs(baseurl + beatmapsurl);
+
+            this.songMenu.Focus();
         }
 
-
-
-
-        protected override void OnPaint(PaintEventArgs e)
+        private void ResizeEndCallback(object sender, EventArgs e)
         {
-            // Rectangle rc = new Rectangle(this.ClientSize.Width - cGrip, this.ClientSize.Height - cGrip, cGrip, cGrip);
-            // ControlPaint.DrawSizeGrip(e.Graphics, this.BackColor, rc);
-            //rc = new Rectangle(0, 0, this.ClientSize.Width, cCaption);
-            //e.Graphics.FillRectangle(Brushes.DarkBlue, rc);
+            this.Size = new Size(this.Size.Width, (int)Math.Round(((this.Size.Height - 90f) / 83)) * 83 + 90);
         }
 
         protected override void WndProc(ref Message m)
@@ -83,7 +80,7 @@ namespace NoodleManager
                 {
                     bottom = true;
                 }
-                else if (pos.Y <  cGrip)
+                else if (pos.Y < cGrip)
                 {
                     top = true;
                 }
@@ -105,7 +102,8 @@ namespace NoodleManager
                         m.Result = (IntPtr)11;  // HTRIGHT
                         return;
                     }
-                } else if (left)
+                }
+                else if (left)
                 {
                     if (bottom)
                     {
@@ -123,7 +121,7 @@ namespace NoodleManager
                         return;
                     }
                 }
-                else if(bottom)
+                else if (bottom)
                 {
                     m.Result = (IntPtr)15;  // HTBOTTOM
                     return;
@@ -133,7 +131,7 @@ namespace NoodleManager
                     m.Result = (IntPtr)12;  // HTTOP
                     return;
                 }
-                else if(pos.Y < cCaption)
+                else if (pos.Y < cCaption)
                 {
                     m.Result = (IntPtr)2;  // HTCAPTION
                     return;
@@ -161,25 +159,28 @@ namespace NoodleManager
                 song.coverImage.ImageLocation = baseurl + item.cover_url;
                 song.songName.Text = item.title + " - " + item.artist;
                 song.mapperName.Text = item.mapper;
-                song.songID.Text = item.id.ToString();
 
                 foreach (string difficulty in item.difficulties)
                 {
                     if (difficulty.Equals("Easy"))
                     {
-                        song.difficulty1.BackColor = SystemColors.HotTrack;
+
                     }
                     else if (difficulty.Equals("Normal"))
                     {
-                        song.difficulty2.BackColor = SystemColors.HotTrack;
+
                     }
                     else if (difficulty.Equals("Hard"))
                     {
-                        song.difficulty3.BackColor = SystemColors.HotTrack;
+
                     }
                     else if (difficulty.Equals("Expert"))
                     {
-                        song.difficulty4.BackColor = SystemColors.HotTrack;
+
+                    }
+                    else if (difficulty.Equals("Master"))
+                    {
+
                     }
                 }
 
@@ -194,25 +195,22 @@ namespace NoodleManager
 
         private void FormclosingCallback(object sender, FormClosingEventArgs e)
         {
-            int i = 0;
-            foreach (WebClient c in GlobalVariables.clients)
+            if (GlobalVariables.clients.Count > 0)
             {
-                if (c != null)
-                {
-                    i++;
-                }
-            }
-            if (i > 0)
-            {
-                ErrorDialog errorDialog = new ErrorDialog(i.ToString() + " Songs are still downloading");
+                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.clients.Count.ToString() + " Songs are still downloading");
                 DialogResult result = errorDialog.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    foreach (WebClient c in GlobalVariables.clients)
+                    foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
                     {
-                        if (c != null)
+                        if (c.Key != null)
                         {
-                            c.CancelAsync();
+                            c.Key.CancelAsync();
+                        }
+
+                        if (File.Exists(c.Value))
+                        {
+                            File.Delete(c.Value);
                         }
                     }
                 }
@@ -222,6 +220,7 @@ namespace NoodleManager
                 }
             }
         }
+
 
         private void Songs_Click(object sender, EventArgs e)
         {
@@ -233,6 +232,8 @@ namespace NoodleManager
 
             settingsMenu.Enabled = false;
             settingsMenu.Visible = false;
+
+            this.songMenu.Focus();
         }
 
         private void Mods_Click(object sender, EventArgs e)
@@ -245,6 +246,8 @@ namespace NoodleManager
 
             settingsMenu.Enabled = false;
             settingsMenu.Visible = false;
+
+            this.modMenu.Focus();
         }
 
         private void Settings_Click(object sender, EventArgs e)
@@ -259,6 +262,8 @@ namespace NoodleManager
 
             settingsMenu.Enabled = true;
             settingsMenu.Visible = true;
+
+            this.settingsMenu.Focus();
         }
 
         private void searchButton_Click(object sender, EventArgs e)

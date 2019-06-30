@@ -47,26 +47,22 @@ namespace NoodleManager
                 {
                     client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
                     client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
-                    client.DownloadFileAsync(new Uri(this.downloadPath), GlobalVariables.settings.directory+ @"\Songs\" + originalFilename);
-                    GlobalVariables.clients.Add(client);
+                    string dpath = GlobalVariables.settings.directory + @"\Songs\" + originalFilename;
+                    client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
+                    GlobalVariables.clients.Add(client, dpath);
                 }
-            //this.progressBar1.Visible = true;
-            this.percentage.Visible = true;
-            this.percentage.Text = "0%";
-            //this.Enabled = false;
+            this.progressBar1.Visible = true;
+            this.Enabled = false;
         }
 
         private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
         {
-            this.percentage.Text = e.ProgressPercentage.ToString() + "%";
-            this.percentage.ForeColor = Color.FromArgb(255,255-2*e.ProgressPercentage, 0, 2*e.ProgressPercentage);
-            //this.progressBar1.Value = e.ProgressPercentage;
+            this.progressBar1.Value = e.ProgressPercentage;
         }
 
         private void DownlaodCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
-           // progressBar1.Visible = false;
-            this.percentage.Visible = false;
+            progressBar1.Visible = false;
             GlobalVariables.clients.Remove((WebClient)sender);
         }
 

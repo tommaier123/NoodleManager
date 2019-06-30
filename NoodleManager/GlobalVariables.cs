@@ -11,8 +11,8 @@ namespace NoodleManager
 {
     public static class GlobalVariables
     {
-        public static Settings settings=new Settings();
-        public static List<WebClient> clients=new List<WebClient>();
+        public static Settings settings = new Settings();
+        public static Dictionary<WebClient, string> clients = new Dictionary<WebClient, string>();
 
         private static string settingsPath = "settings.txt";
 

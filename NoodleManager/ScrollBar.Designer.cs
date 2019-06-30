@@ -48,7 +48,7 @@
             this.BackColor = System.Drawing.SystemColors.Highlight;
             this.Controls.Add(this.grabber);
             this.Name = "ScrollBar";
-            this.Size = new System.Drawing.Size(20, 150);
+            this.Size = new System.Drawing.Size(20, 498);
             ((System.ComponentModel.ISupportInitialize)(this.grabber)).EndInit();
             this.ResumeLayout(false);
 
