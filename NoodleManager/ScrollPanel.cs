@@ -16,7 +16,6 @@ namespace NoodleManager
         private bool down = false;
         private Point down_mloc;
         private Point down_sloc;
-        private int mloc_last;
 
         public ScrollPanel()
         {
@@ -49,15 +48,13 @@ namespace NoodleManager
 
         private void MouseMove_callback(object sender, MouseEventArgs e)
         {
-            if (scrollControl != null && down && Math.Abs(e.Location.Y - mloc_last) > 5)
+            if (scrollControl != null && down)
             {
                 int scrollheight = this.scrollBar.Size.Height - this.scrollBar.grabber.Size.Height;
                 int scrollable = this.scrollControl.Size.Height - this.scrollBar.Size.Height;
                 Point temp = scrollControl.Location;
 
                 temp.Y = (int)(down_sloc.Y + scrollable * ((down_mloc.Y - e.Location.Y) / (double)scrollheight));
-
-                temp.Y = (temp.Y / 83) * 83;
 
                 if (temp.Y > 0)
                 {
@@ -73,8 +70,6 @@ namespace NoodleManager
                 Point temp2 = this.scrollBar.grabber.Location;
                 temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
                 this.scrollBar.grabber.Location = temp2;
-
-                mloc_last = e.Location.Y;
             }
         }
 
@@ -88,14 +83,12 @@ namespace NoodleManager
 
                 if (e.Delta>0)
                 {
-                    temp.Y += 83;
+                    temp.Y += 60;
                 }
                 else if (e.Delta < 0)
                 {
-                    temp.Y -= 83;
+                    temp.Y -= 60;
                 }
-
-                temp.Y = (temp.Y / 83) * 83;
 
                 if (temp.Y > 0)
                 {
