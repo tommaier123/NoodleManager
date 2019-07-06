@@ -17,6 +17,7 @@ namespace NoodleManager
         {
             InitializeComponent();
             this.label1.Text = text;
+            this.CancelButton = this.cancel;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
