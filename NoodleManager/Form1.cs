@@ -15,9 +15,7 @@ namespace NoodleManager
 {
     public partial class Form1 : Form
     {
-        //position, size of error
-        //search
-        //custom disabled with redownload, delete option
+        //redownload, delete option
         //dynamic design
 
 
@@ -44,19 +42,182 @@ namespace NoodleManager
 
             this.FormClosing += FormclosingCallback;
 
-            this.ResizeEnd += ResizeEndCallback;
-
             LoadSongs(baseurl + beatmapsurl);
+
+            this.searchText.KeyDown += new KeyEventHandler(this.SearchKeyDownCallback);
+            this.CancelButton = this.closeButton;
 
             this.songMenu.Focus();
         }
 
-        private void ResizeEndCallback(object sender, EventArgs e)
+
+        private void LoadSongs(string path)
         {
-            //this.Size = new Size(this.Size.Width, (int)Math.Round(((this.Size.Height - 90f) / 83)) * 83 + 90);
+            this.songMenu.tableLayoutPanel.Controls.Clear();
+
+            string content = new WebClient().DownloadString(path);
+            SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
+
+            foreach (SongInfo item in items)
+            {
+                WebClient client = new WebClient();
+
+                SongControl song = new SongControl();
+                song.downloadPath = baseurl + item.download_url;
+                song.originalFilename = item.filename_original;
+                song.coverImage.ImageLocation = baseurl + item.cover_url;
+                song.songName.Text = item.title + " - " + item.artist;
+                song.mapperName.Text = item.mapper;
+
+                foreach (string difficulty in item.difficulties)
+                {
+                    if (difficulty.Equals("Easy"))
+                    {
+
+                    }
+                    else if (difficulty.Equals("Normal"))
+                    {
+
+                    }
+                    else if (difficulty.Equals("Hard"))
+                    {
+
+                    }
+                    else if (difficulty.Equals("Expert"))
+                    {
+
+                    }
+                    else if (difficulty.Equals("Master"))
+                    {
+
+                    }
+                }
+
+                if (File.Exists(GlobalVariables.settings.directory + @"\Songs\" + item.filename_original))
+                {
+                    song.Deactivate();
+                }
+
+                this.songMenu.tableLayoutPanel.Controls.Add(song);
+            }
         }
 
-        protected override void WndProc(ref Message m)
+        private void FormclosingCallback(object sender, FormClosingEventArgs e)
+        {
+            if (GlobalVariables.clients.Count > 0)
+            {
+                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.clients.Count.ToString() + " Songs are still downloading");
+                Point tmp = this.Location;
+                tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
+                tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
+                errorDialog.Location = tmp;
+                DialogResult result = errorDialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
+                    {
+                        if (c.Key != null)
+                        {
+                            c.Key.CancelAsync();
+                        }
+
+                        if (File.Exists(c.Value))
+                        {
+                            File.Delete(c.Value);
+                        }
+                    }
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+
+        private void Songs_Click(object sender, EventArgs e)
+        {
+            songMenu.Enabled = true;
+            songMenu.Visible = true;
+
+            modMenu.Enabled = false;
+            modMenu.Visible = false;
+
+            settingsMenu.Enabled = false;
+            settingsMenu.Visible = false;
+
+            this.songMenu.Focus();
+        }
+
+        private void Mods_Click(object sender, EventArgs e)
+        {
+            songMenu.Enabled = false;
+            songMenu.Visible = false;
+
+            modMenu.Enabled = true;
+            modMenu.Visible = true;
+
+            settingsMenu.Enabled = false;
+            settingsMenu.Visible = false;
+
+            this.modMenu.Focus();
+        }
+
+        private void Settings_Click(object sender, EventArgs e)
+        {
+
+            GlobalVariables.ReadSettings();
+            songMenu.Enabled = false;
+            songMenu.Visible = false;
+
+            modMenu.Enabled = false;
+            modMenu.Visible = false;
+
+            settingsMenu.Enabled = true;
+            settingsMenu.Visible = true;
+
+            this.settingsMenu.Focus();
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void SearchKeyDownCallback(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Search();
+            }
+        }
+
+        private void Search()
+        {
+            string mode = "q";
+            if (this.searchMode.SelectedIndex == 1)
+            {
+                mode = "title";
+            }
+            else if (this.searchMode.SelectedIndex == 2)
+            {
+                mode = "mapper";
+            }
+            else if (this.searchMode.SelectedIndex == 3)
+            {
+                mode = "artist";
+            }
+
+            LoadSongs(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        protected override void WndProc(ref Message m)//using the windows defaut resize with a borderless window
         {
             if (m.Msg == 0x84)
             {  // Trap WM_NCHITTEST
@@ -140,154 +301,5 @@ namespace NoodleManager
             base.WndProc(ref m);
         }
 
-
-
-        private void LoadSongs(string path)
-        {
-            this.songMenu.tableLayoutPanel.Controls.Clear();
-
-            string content = new WebClient().DownloadString(path);
-            SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
-
-            foreach (SongInfo item in items)
-            {
-                WebClient client = new WebClient();
-
-                SongControl song = new SongControl();
-                song.downloadPath = baseurl + item.download_url;
-                song.originalFilename = item.filename_original;
-                song.coverImage.ImageLocation = baseurl + item.cover_url;
-                song.songName.Text = item.title + " - " + item.artist;
-                song.mapperName.Text = item.mapper;
-
-                foreach (string difficulty in item.difficulties)
-                {
-                    if (difficulty.Equals("Easy"))
-                    {
-
-                    }
-                    else if (difficulty.Equals("Normal"))
-                    {
-
-                    }
-                    else if (difficulty.Equals("Hard"))
-                    {
-
-                    }
-                    else if (difficulty.Equals("Expert"))
-                    {
-
-                    }
-                    else if (difficulty.Equals("Master"))
-                    {
-
-                    }
-                }
-
-                if (File.Exists(GlobalVariables.settings.directory + @"\Songs\" + item.filename_original))
-                {
-                    song.Enabled = false;
-                }
-
-                this.songMenu.tableLayoutPanel.Controls.Add(song);
-            }
-        }
-
-        private void FormclosingCallback(object sender, FormClosingEventArgs e)
-        {
-            if (GlobalVariables.clients.Count > 0)
-            {
-                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.clients.Count.ToString() + " Songs are still downloading");
-                DialogResult result = errorDialog.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
-                    {
-                        if (c.Key != null)
-                        {
-                            c.Key.CancelAsync();
-                        }
-
-                        if (File.Exists(c.Value))
-                        {
-                            File.Delete(c.Value);
-                        }
-                    }
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
-
-        private void Songs_Click(object sender, EventArgs e)
-        {
-            songMenu.Enabled = true;
-            songMenu.Visible = true;
-
-            modMenu.Enabled = false;
-            modMenu.Visible = false;
-
-            settingsMenu.Enabled = false;
-            settingsMenu.Visible = false;
-
-            this.songMenu.Focus();
-        }
-
-        private void Mods_Click(object sender, EventArgs e)
-        {
-            songMenu.Enabled = false;
-            songMenu.Visible = false;
-
-            modMenu.Enabled = true;
-            modMenu.Visible = true;
-
-            settingsMenu.Enabled = false;
-            settingsMenu.Visible = false;
-
-            this.modMenu.Focus();
-        }
-
-        private void Settings_Click(object sender, EventArgs e)
-        {
-
-            GlobalVariables.ReadSettings();
-            songMenu.Enabled = false;
-            songMenu.Visible = false;
-
-            modMenu.Enabled = false;
-            modMenu.Visible = false;
-
-            settingsMenu.Enabled = true;
-            settingsMenu.Visible = true;
-
-            this.settingsMenu.Focus();
-        }
-
-        private void searchButton_Click(object sender, EventArgs e)
-        {
-            string mode = "q";
-            if (this.searchMode.SelectedIndex == 1)
-            {
-                mode = "title";
-            }
-            else if (this.searchMode.SelectedIndex == 2)
-            {
-                mode = "mapper";
-            }
-            else if (this.searchMode.SelectedIndex == 3)
-            {
-                mode = "artist";
-            }
-
-            LoadSongs(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

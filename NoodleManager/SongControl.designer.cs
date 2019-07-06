@@ -28,14 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.pictureBoxNM2 = new NoodleManager.PictureBoxNM();
             this.mapperName = new NoodleManager.LabelNM();
             this.songName = new NoodleManager.LabelNM();
             this.coverImage = new NoodleManager.PictureBoxNM();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.pictureBoxNM2 = new NoodleManager.PictureBoxNM();
-            ((System.ComponentModel.ISupportInitialize)(this.coverImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.coverImage)).BeginInit();
             this.SuspendLayout();
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(583, 71);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.TabIndex = 12;
+            this.progressBar1.Visible = false;
+            // 
+            // pictureBoxNM2
+            // 
+            this.pictureBoxNM2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxNM2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pictureBoxNM2.ErrorImage = null;
+            this.pictureBoxNM2.InitialImage = null;
+            this.pictureBoxNM2.Location = new System.Drawing.Point(45, 158);
+            this.pictureBoxNM2.Name = "pictureBoxNM2";
+            this.pictureBoxNM2.Size = new System.Drawing.Size(700, 2);
+            this.pictureBoxNM2.TabIndex = 14;
+            this.pictureBoxNM2.TabStop = false;
             // 
             // mapperName
             // 
@@ -72,27 +93,6 @@
             this.coverImage.TabIndex = 1;
             this.coverImage.TabStop = false;
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(583, 71);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.TabIndex = 12;
-            this.progressBar1.Visible = false;
-            // 
-            // pictureBoxNM2
-            // 
-            this.pictureBoxNM2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxNM2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.pictureBoxNM2.ErrorImage = null;
-            this.pictureBoxNM2.InitialImage = null;
-            this.pictureBoxNM2.Location = new System.Drawing.Point(45, 158);
-            this.pictureBoxNM2.Name = "pictureBoxNM2";
-            this.pictureBoxNM2.Size = new System.Drawing.Size(700, 2);
-            this.pictureBoxNM2.TabIndex = 14;
-            this.pictureBoxNM2.TabStop = false;
-            // 
             // SongControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -105,8 +105,8 @@
             this.Controls.Add(this.coverImage);
             this.Name = "SongControl";
             this.Size = new System.Drawing.Size(780, 160);
-            ((System.ComponentModel.ISupportInitialize)(this.coverImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.coverImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

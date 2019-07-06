@@ -36,7 +36,7 @@ namespace NoodleManager
             this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // Cancel
+            // cancel
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancel.Location = new System.Drawing.Point(94, 75);
@@ -47,7 +47,7 @@ namespace NoodleManager
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
-            // OK
+            // ok
             // 
             this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ok.Location = new System.Drawing.Point(4, 75);
@@ -80,6 +80,7 @@ namespace NoodleManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(173, 101);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -87,7 +88,9 @@ namespace NoodleManager
             this.Controls.Add(this.cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ErrorDialog";
-            this.Text = "ErrorDialog";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "Error";
             this.ResumeLayout(false);
             this.PerformLayout();
 
