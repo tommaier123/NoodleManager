@@ -16,7 +16,8 @@ namespace NoodleManager
     {
         public string downloadPath;
         public string originalFilename;
-        public bool Active = true;
+        public bool active = true;
+        public string[] difficulties;
 
         private Size pictureSize;
         private Point pictureLocation;
@@ -46,15 +47,72 @@ namespace NoodleManager
 
         public void Activate()
         {
-            this.Active = true;
+            this.active = true;
             this.BackColor = this.originalColor;
             this.progressBar1.Value = 0;
+
+            this.songName.ForeColor = System.Drawing.Color.White;
+            this.mapperName.ForeColor = System.Drawing.Color.White;
+            this.artist.ForeColor = System.Drawing.Color.White;
+            this.duration.ForeColor = System.Drawing.Color.White;
+
+            foreach (string difficulty in this.difficulties)
+            {
+                if (difficulty.Equals("Easy"))
+                {
+                    this.Easy.ForeColor = System.Drawing.Color.White;
+                }
+                else if (difficulty.Equals("Normal"))
+                {
+                    this.Normal.ForeColor = System.Drawing.Color.White;
+                }
+                else if (difficulty.Equals("Hard"))
+                {
+                    this.Hard.ForeColor = System.Drawing.Color.White;
+                }
+                else if (difficulty.Equals("Expert"))
+                {
+                    this.Expert.ForeColor = System.Drawing.Color.White;
+                }
+                else if (difficulty.Equals("Master"))
+                {
+                    this.Master.ForeColor = System.Drawing.Color.White;
+                }
+            }
         }
 
         public void Deactivate()
         {
-            this.Active = false;
-            this.BackColor = Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.active = false;
+            this.BackColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.songName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.mapperName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.artist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.duration.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+
+            foreach (string difficulty in this.difficulties)
+            {
+                if (difficulty.Equals("Easy"))
+                {
+                    this.Easy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+                }
+                else if (difficulty.Equals("Normal"))
+                {
+                    this.Normal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+                }
+                else if (difficulty.Equals("Hard"))
+                {
+                    this.Hard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+                }
+                else if (difficulty.Equals("Expert"))
+                {
+                    this.Expert.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+                }
+                else if (difficulty.Equals("Master"))
+                {
+                    this.Master.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+                }
+            }
 
             if (this.big)
             {
@@ -66,15 +124,15 @@ namespace NoodleManager
 
         private void MouseClick_callback(object sender, MouseEventArgs e)
         {
-            string dpath = GlobalVariables.settings.directory + @"\Songs\" + originalFilename;
+            string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
 
             if (e.Button == MouseButtons.Left)
             {
-                if (this.Active && GlobalVariables.settings.directory != null && downloadPath != null)
+                if (this.active && Properties.Settings.Default.path != null && downloadPath != null)
                 {
+                    Console.WriteLine(dpath);
                     using (var client = new WebClient())
                     {
-                        
                         client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
                         client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
                         client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
@@ -100,7 +158,7 @@ namespace NoodleManager
 
         public bool RightClickDialogCallback(int e)
         {
-            string dpath = GlobalVariables.settings.directory + @"\Songs\" + originalFilename;
+            string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
 
             if (e == 1)//reload
             {
@@ -138,7 +196,7 @@ namespace NoodleManager
 
         private void MouseEnter_callback(object sender, EventArgs e)
         {
-            if (this.Active && !this.big)
+            if (this.active && !this.big)
             {
                 this.big = true;
                 this.pictureSize = this.coverImage.Size;
@@ -157,7 +215,7 @@ namespace NoodleManager
 
         private void MouseLeave_callback(object sender, EventArgs e)
         {
-            if (this.Active && this.big)
+            if (this.active && this.big)
             {
                 this.coverImage.Size = this.pictureSize;
                 this.coverImage.Location = this.pictureLocation;

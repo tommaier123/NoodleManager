@@ -14,12 +14,11 @@ namespace NoodleManager
 {
     public partial class SettingsMenu : UserControl
     {
-        public Settings settings;
-
         public SettingsMenu()
         {
             InitializeComponent();
-            this.textBox1.Text = GlobalVariables.settings.directory;
+
+            this.textBox1.Text = Properties.Settings.Default.path;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -30,12 +29,6 @@ namespace NoodleManager
             {
                 this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
             }
-        }
-
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            GlobalVariables.settings.directory = this.textBox1.Text;
-            GlobalVariables.WriteSettings();
         }
     }
 }

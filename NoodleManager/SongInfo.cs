@@ -20,5 +20,6 @@ namespace NoodleManager
         public string created_at = "N/A";
         public string updated_at = "N/A";
         public float version = -1;
+        public string duration = "N/A";
     }
 }

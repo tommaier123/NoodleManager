@@ -15,21 +15,20 @@ namespace NoodleManager
 {
     public partial class Form1 : Form
     {
-        //redownload, delete option
-        //dynamic design
-
-
         private const int cGrip = 10;      // Grip size
         private const int cCaption = 70;   // Caption bar height;
 
-
         public const string baseurl = "https://synthriderz.com";
         public const string beatmapsurl = "/api/beatmaps";
-        public const string path = @"C:\Users\BFM2FE\AppData\Roaming\download";
 
         public Form1()
         {
             InitializeComponent();
+            if (!Directory.Exists(Properties.Settings.Default.path + @"\CustomSongs\"))
+            {
+                ShowSettings();
+            }
+
             this.pictureBoxNM1.SendToBack();
 
             this.FormBorderStyle = FormBorderStyle.None;
@@ -38,14 +37,11 @@ namespace NoodleManager
 
             this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist" };
 
-            GlobalVariables.ReadSettings();
-
             this.FormClosing += FormclosingCallback;
 
             LoadSongs(baseurl + beatmapsurl);
 
             this.searchText.KeyDown += new KeyEventHandler(this.SearchKeyDownCallback);
-            this.CancelButton = this.closeButton;
 
             this.songMenu.Focus();
         }
@@ -68,32 +64,35 @@ namespace NoodleManager
                 song.coverImage.ImageLocation = baseurl + item.cover_url;
                 song.songName.Text = item.title + " - " + item.artist;
                 song.mapperName.Text = item.mapper;
+                song.difficulties = item.difficulties;
+                song.artist.Text = item.artist;
+                song.duration.Text = item.duration;
 
                 foreach (string difficulty in item.difficulties)
                 {
                     if (difficulty.Equals("Easy"))
                     {
-
+                        song.Easy.ForeColor = System.Drawing.Color.White;
                     }
                     else if (difficulty.Equals("Normal"))
                     {
-
+                        song.Normal.ForeColor = System.Drawing.Color.White;
                     }
                     else if (difficulty.Equals("Hard"))
                     {
-
+                        song.Hard.ForeColor = System.Drawing.Color.White;
                     }
                     else if (difficulty.Equals("Expert"))
                     {
-
+                        song.Expert.ForeColor = System.Drawing.Color.White;
                     }
                     else if (difficulty.Equals("Master"))
                     {
-
+                        song.Master.ForeColor = System.Drawing.Color.White;
                     }
                 }
 
-                if (File.Exists(GlobalVariables.settings.directory + @"\Songs\" + item.filename_original))
+                if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
                 {
                     song.Deactivate();
                 }
@@ -138,36 +137,67 @@ namespace NoodleManager
 
         private void Songs_Click(object sender, EventArgs e)
         {
-            songMenu.Enabled = true;
-            songMenu.Visible = true;
+            if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+            {
+                ShowSettings();
+            }
+            else
+            {
+                Properties.Settings.Default.path = settingsMenu.textBox1.Text;
+                Properties.Settings.Default.Save();
 
-            modMenu.Enabled = false;
-            modMenu.Visible = false;
+                songMenu.Enabled = true;
+                songMenu.Visible = true;
 
-            settingsMenu.Enabled = false;
-            settingsMenu.Visible = false;
+                modMenu.Enabled = false;
+                modMenu.Visible = false;
 
-            this.songMenu.Focus();
+                settingsMenu.Enabled = false;
+                settingsMenu.Visible = false;
+
+                this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
+                this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+                this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
+
+                this.songMenu.Focus();
+            }
         }
 
         private void Mods_Click(object sender, EventArgs e)
         {
-            songMenu.Enabled = false;
-            songMenu.Visible = false;
+            if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+            {
+                ShowSettings();
+            }
+            else
+            {
+                Properties.Settings.Default.path = settingsMenu.textBox1.Text;
+                Properties.Settings.Default.Save();
 
-            modMenu.Enabled = true;
-            modMenu.Visible = true;
+                songMenu.Enabled = false;
+                songMenu.Visible = false;
 
-            settingsMenu.Enabled = false;
-            settingsMenu.Visible = false;
+                modMenu.Enabled = true;
+                modMenu.Visible = true;
 
-            this.modMenu.Focus();
+                settingsMenu.Enabled = false;
+                settingsMenu.Visible = false;
+
+                this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+                this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
+                this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
+
+                this.modMenu.Focus();
+            }
         }
 
         private void Settings_Click(object sender, EventArgs e)
         {
+            ShowSettings();
+        }
 
-            GlobalVariables.ReadSettings();
+        private void ShowSettings()
+        {
             songMenu.Enabled = false;
             songMenu.Visible = false;
 
@@ -176,6 +206,12 @@ namespace NoodleManager
 
             settingsMenu.Enabled = true;
             settingsMenu.Visible = true;
+
+            settingsMenu.textBox1.Text = Properties.Settings.Default.path;
+
+            this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+            this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+            this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_s;
 
             this.settingsMenu.Focus();
         }
@@ -210,11 +246,6 @@ namespace NoodleManager
             }
 
             LoadSongs(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         protected override void WndProc(ref Message m)//using the windows defaut resize with a borderless window
@@ -301,5 +332,41 @@ namespace NoodleManager
             base.WndProc(ref m);
         }
 
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (Form.ModifierKeys == Keys.None && keyData == Keys.Escape)
+            {
+                this.Close();
+                return true;
+            }
+            if (Form.ModifierKeys == Keys.None && keyData == Keys.Return)
+            {
+                this.Search();
+                return true;
+            }
+            return base.ProcessDialogKey(keyData);
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void FullscreenButton_Click(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }
