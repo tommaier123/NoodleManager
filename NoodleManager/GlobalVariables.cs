@@ -11,43 +11,6 @@ namespace NoodleManager
 {
     public static class GlobalVariables
     {
-        public static Settings settings = new Settings();
         public static Dictionary<WebClient, string> clients = new Dictionary<WebClient, string>();
-
-        private static string settingsPath = "settings.txt";
-
-        public static Settings ReadSettings()
-        {
-            if (File.Exists(settingsPath))
-            {
-                string text;
-                var fileStream = new FileStream(settingsPath, FileMode.Open, FileAccess.Read);
-                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
-                {
-                    text = streamReader.ReadToEnd();
-                }
-
-                settings = JsonConvert.DeserializeObject<Settings>(text);
-            }
-            else
-            {
-                settings = new Settings();
-                WriteSettings();
-            }
-            return settings;
-        }
-
-        public static void WriteSettings()
-        {
-            JsonSerializer serializer = new JsonSerializer();
-
-            using (StreamWriter sw = new StreamWriter(settingsPath))
-            {
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, settings);
-                }
-            }
-        }
     }
 }

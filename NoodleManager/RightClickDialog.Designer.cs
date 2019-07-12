@@ -35,7 +35,7 @@
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(173, 15);
+            this.Cancel.Location = new System.Drawing.Point(173, 13);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
             this.Cancel.TabIndex = 0;
@@ -45,7 +45,7 @@
             // 
             // Reload
             // 
-            this.Reload.Location = new System.Drawing.Point(92, 15);
+            this.Reload.Location = new System.Drawing.Point(92, 13);
             this.Reload.Name = "Reload";
             this.Reload.Size = new System.Drawing.Size(75, 23);
             this.Reload.TabIndex = 1;
@@ -55,7 +55,7 @@
             // 
             // Delete
             // 
-            this.Delete.Location = new System.Drawing.Point(11, 15);
+            this.Delete.Location = new System.Drawing.Point(11, 13);
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(75, 23);
             this.Delete.TabIndex = 2;
@@ -67,7 +67,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(260, 50);
+            this.BackColor = System.Drawing.Color.Gray;
+            this.ClientSize = new System.Drawing.Size(260, 49);
             this.Controls.Add(this.Delete);
             this.Controls.Add(this.Reload);
             this.Controls.Add(this.Cancel);

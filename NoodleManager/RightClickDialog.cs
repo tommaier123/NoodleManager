@@ -17,8 +17,8 @@ namespace NoodleManager
         public RightClickDialog()
         {
             InitializeComponent();
-
             this.Deactivate += new EventHandler(this.DeactivateCallback);
+            this.CancelButton = this.Cancel;
         }
 
         private void DeactivateCallback(object sender, EventArgs e)

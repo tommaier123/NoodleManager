@@ -31,10 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.songsButton = new System.Windows.Forms.Label();
             this.modsButton = new System.Windows.Forms.Label();
-            this.settingsButton = new System.Windows.Forms.Label();
             this.searchText = new System.Windows.Forms.TextBox();
             this.searchMode = new System.Windows.Forms.ComboBox();
-            this.closeButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.FullscreenButton = new System.Windows.Forms.PictureBox();
+            this.CloseButton = new System.Windows.Forms.PictureBox();
+            this.SettingsButton = new System.Windows.Forms.PictureBox();
             this.searchButton = new System.Windows.Forms.PictureBox();
             this.pictureBoxNM3 = new NoodleManager.PictureBoxNM();
             this.pictureBoxNM2 = new NoodleManager.PictureBoxNM();
@@ -42,6 +44,11 @@
             this.songMenu = new NoodleManager.TableMenu();
             this.modMenu = new NoodleManager.TableMenu();
             this.settingsMenu = new NoodleManager.SettingsMenu();
+            this.labelNM1 = new NoodleManager.LabelNM();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FullscreenButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).BeginInit();
@@ -52,6 +59,7 @@
             // 
             this.songsButton.AutoSize = true;
             this.songsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
             this.songsButton.Location = new System.Drawing.Point(137, 23);
             this.songsButton.Name = "songsButton";
             this.songsButton.Size = new System.Drawing.Size(72, 20);
@@ -64,6 +72,7 @@
             // 
             this.modsButton.AutoSize = true;
             this.modsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
             this.modsButton.Location = new System.Drawing.Point(232, 23);
             this.modsButton.Name = "modsButton";
             this.modsButton.Size = new System.Drawing.Size(61, 20);
@@ -72,28 +81,18 @@
             this.modsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.modsButton.Click += new System.EventHandler(this.Mods_Click);
             // 
-            // settingsButton
-            // 
-            this.settingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.settingsButton.Location = new System.Drawing.Point(310, 23);
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(26, 28);
-            this.settingsButton.TabIndex = 0;
-            this.settingsButton.Text = "S";
-            this.settingsButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.settingsButton.Click += new System.EventHandler(this.Settings_Click);
-            // 
             // searchText
             // 
             this.searchText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.searchText.BackColor = System.Drawing.Color.Black;
             this.searchText.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.searchText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchText.ForeColor = System.Drawing.Color.Gray;
-            this.searchText.Location = new System.Drawing.Point(392, 23);
+            this.searchText.Location = new System.Drawing.Point(382, 23);
+            this.searchText.MinimumSize = new System.Drawing.Size(0, 20);
             this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(130, 15);
+            this.searchText.Size = new System.Drawing.Size(202, 20);
             this.searchText.TabIndex = 3;
             this.searchText.WordWrap = false;
             // 
@@ -106,31 +105,75 @@
             this.searchMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchMode.ForeColor = System.Drawing.Color.Gray;
             this.searchMode.FormattingEnabled = true;
-            this.searchMode.Location = new System.Drawing.Point(566, 23);
+            this.searchMode.Location = new System.Drawing.Point(627, 23);
             this.searchMode.Name = "searchMode";
             this.searchMode.Size = new System.Drawing.Size(73, 24);
             this.searchMode.TabIndex = 4;
             // 
-            // closeButton
+            // pictureBox1
             // 
-            this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeButton.Location = new System.Drawing.Point(774, 25);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(22, 22);
-            this.closeButton.TabIndex = 6;
-            this.closeButton.Text = "C";
-            this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.Button1_Click);
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.Image = global::NoodleManager.Properties.Resources.minimize;
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(742, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 16;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // FullscreenButton
+            // 
+            this.FullscreenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.FullscreenButton.ErrorImage = null;
+            this.FullscreenButton.Image = global::NoodleManager.Properties.Resources.fullscreen;
+            this.FullscreenButton.InitialImage = null;
+            this.FullscreenButton.Location = new System.Drawing.Point(768, 5);
+            this.FullscreenButton.Name = "FullscreenButton";
+            this.FullscreenButton.Size = new System.Drawing.Size(20, 20);
+            this.FullscreenButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.FullscreenButton.TabIndex = 15;
+            this.FullscreenButton.TabStop = false;
+            this.FullscreenButton.Click += new System.EventHandler(this.FullscreenButton_Click);
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.ErrorImage = null;
+            this.CloseButton.Image = global::NoodleManager.Properties.Resources.close;
+            this.CloseButton.InitialImage = null;
+            this.CloseButton.Location = new System.Drawing.Point(794, 5);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(20, 20);
+            this.CloseButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.CloseButton.TabIndex = 14;
+            this.CloseButton.TabStop = false;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            // 
+            // SettingsButton
+            // 
+            this.SettingsButton.ErrorImage = null;
+            this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
+            this.SettingsButton.InitialImage = null;
+            this.SettingsButton.Location = new System.Drawing.Point(317, 18);
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(30, 30);
+            this.SettingsButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.SettingsButton.TabIndex = 13;
+            this.SettingsButton.TabStop = false;
+            this.SettingsButton.Click += new System.EventHandler(this.Settings_Click);
             // 
             // searchButton
             // 
             this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.searchButton.ErrorImage = null;
-            this.searchButton.Image = ((System.Drawing.Image)(resources.GetObject("searchButton.Image")));
+            this.searchButton.Image = global::NoodleManager.Properties.Resources.SearchIcon;
             this.searchButton.InitialImage = null;
-            this.searchButton.Location = new System.Drawing.Point(528, 23);
+            this.searchButton.Location = new System.Drawing.Point(590, 23);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(15, 15);
+            this.searchButton.Size = new System.Drawing.Size(24, 24);
             this.searchButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.searchButton.TabIndex = 9;
             this.searchButton.TabStop = false;
@@ -141,11 +184,11 @@
             this.pictureBoxNM3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxNM3.ErrorImage = null;
-            this.pictureBoxNM3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxNM3.Image")));
+            this.pictureBoxNM3.Image = global::NoodleManager.Properties.Resources.searchUnderline;
             this.pictureBoxNM3.InitialImage = null;
-            this.pictureBoxNM3.Location = new System.Drawing.Point(392, 42);
+            this.pictureBoxNM3.Location = new System.Drawing.Point(382, 45);
             this.pictureBoxNM3.Name = "pictureBoxNM3";
-            this.pictureBoxNM3.Size = new System.Drawing.Size(151, 2);
+            this.pictureBoxNM3.Size = new System.Drawing.Size(208, 3);
             this.pictureBoxNM3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxNM3.TabIndex = 10;
             this.pictureBoxNM3.TabStop = false;
@@ -153,7 +196,7 @@
             // pictureBoxNM2
             // 
             this.pictureBoxNM2.ErrorImage = null;
-            this.pictureBoxNM2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxNM2.Image")));
+            this.pictureBoxNM2.Image = global::NoodleManager.Properties.Resources.noodleManagerLogo;
             this.pictureBoxNM2.InitialImage = null;
             this.pictureBoxNM2.Location = new System.Drawing.Point(8, 10);
             this.pictureBoxNM2.Name = "pictureBoxNM2";
@@ -219,20 +262,33 @@
             this.settingsMenu.TabStop = false;
             this.settingsMenu.Visible = false;
             // 
+            // labelNM1
+            // 
+            this.labelNM1.AutoSize = true;
+            this.labelNM1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.labelNM1.Location = new System.Drawing.Point(95, 49);
+            this.labelNM1.Name = "labelNM1";
+            this.labelNM1.Size = new System.Drawing.Size(38, 13);
+            this.labelNM1.TabIndex = 17;
+            this.labelNM1.Text = "V1.2.0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(820, 588);
+            this.Controls.Add(this.labelNM1);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.FullscreenButton);
+            this.Controls.Add(this.CloseButton);
+            this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.pictureBoxNM3);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.pictureBoxNM2);
             this.Controls.Add(this.pictureBoxNM1);
-            this.Controls.Add(this.closeButton);
             this.Controls.Add(this.searchMode);
             this.Controls.Add(this.searchText);
-            this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.modsButton);
             this.Controls.Add(this.songsButton);
             this.Controls.Add(this.songMenu);
@@ -240,8 +296,14 @@
             this.Controls.Add(this.settingsMenu);
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(820, 70);
             this.Name = "Form1";
             this.Text = "NoodleManager";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FullscreenButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).EndInit();
@@ -258,14 +320,17 @@
         private SettingsMenu settingsMenu;
         private System.Windows.Forms.Label songsButton;
         private System.Windows.Forms.Label modsButton;
-        private System.Windows.Forms.Label settingsButton;
         private System.Windows.Forms.TextBox searchText;
         private System.Windows.Forms.ComboBox searchMode;
-        private System.Windows.Forms.Button closeButton;
         private PictureBoxNM pictureBoxNM1;
         private PictureBoxNM pictureBoxNM2;
         private System.Windows.Forms.PictureBox searchButton;
         private PictureBoxNM pictureBoxNM3;
+        private System.Windows.Forms.PictureBox SettingsButton;
+        private System.Windows.Forms.PictureBox CloseButton;
+        private System.Windows.Forms.PictureBox FullscreenButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private LabelNM labelNM1;
     }
 }
 

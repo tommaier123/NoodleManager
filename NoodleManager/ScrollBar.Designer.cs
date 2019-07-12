@@ -32,7 +32,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.grabber)).BeginInit();
             this.SuspendLayout();
             // 
-            // grabber1
+            // grabber
             // 
             this.grabber.BackColor = System.Drawing.SystemColors.Desktop;
             this.grabber.Location = new System.Drawing.Point(0, 0);
@@ -45,7 +45,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Highlight;
+            this.BackColor = System.Drawing.Color.Silver;
             this.Controls.Add(this.grabber);
             this.Name = "ScrollBar";
             this.Size = new System.Drawing.Size(20, 498);
