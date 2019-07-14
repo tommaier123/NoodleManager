@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F95A783F-7131-4BE5-8923-800D821526B0}</ProjectGuid>
+    <ProjectGuid>{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>NoodleManager</RootNamespace>
     <AssemblyName>NoodleManager</AssemblyName>
@@ -32,6 +32,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon-nm.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,14 +52,70 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorDialog.Designer.cs">
+      <DependentUpon>ErrorDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalVariables.cs" />
+    <Compile Include="LabelNM.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PictureBoxNM.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RightClickDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RightClickDialog.Designer.cs">
+      <DependentUpon>RightClickDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScrollBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ScrollBar.designer.cs">
+      <DependentUpon>ScrollBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScrollPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ScrollPanel.Designer.cs">
+      <DependentUpon>ScrollPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsMenu.designer.cs">
+      <DependentUpon>SettingsMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SongControl.designer.cs">
+      <DependentUpon>SongControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SongInfo.cs" />
+    <Compile Include="TableMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TableMenu.Designer.cs">
+      <DependentUpon>TableMenu.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ErrorDialog.resx">
+      <DependentUpon>ErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -62,7 +124,26 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RightClickDialog.resx">
+      <DependentUpon>RightClickDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScrollBar.resx">
+      <DependentUpon>ScrollBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScrollPanel.resx">
+      <DependentUpon>ScrollPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsMenu.resx">
+      <DependentUpon>SettingsMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SongControl.resx">
+      <DependentUpon>SongControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableMenu.resx">
+      <DependentUpon>TableMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,6 +156,38 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_u.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\noodleManagerLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SearchIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fullscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\searchUnderline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon-nm.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
