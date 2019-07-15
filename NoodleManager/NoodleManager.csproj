@@ -73,12 +73,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RightClickDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RightClickDialog.Designer.cs">
-      <DependentUpon>RightClickDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ScrollBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,9 +120,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RightClickDialog.resx">
-      <DependentUpon>RightClickDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ScrollBar.resx">
       <DependentUpon>ScrollBar.cs</DependentUpon>
     </EmbeddedResource>

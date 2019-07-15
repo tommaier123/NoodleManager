@@ -31,13 +31,11 @@ namespace NoodleManager
 
             this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-            this.MouseClick += new MouseEventHandler(this.MouseClick_callback);
             this.MouseEnter += new EventHandler(MouseEnter_callback);
             this.MouseLeave += new EventHandler(MouseLeave_callback);
 
             foreach (Control c in this.Controls)
             {
-                c.MouseClick += new MouseEventHandler(this.MouseClick_callback);
                 c.MouseEnter += new EventHandler(MouseEnter_callback);
                 c.MouseLeave += new EventHandler(MouseLeave_callback);
             }
@@ -50,6 +48,7 @@ namespace NoodleManager
             this.active = true;
             this.BackColor = this.originalColor;
             this.progressBar1.Value = 0;
+            this.DownloadButton.BackColor = System.Drawing.Color.Lime;
 
             this.songName.ForeColor = System.Drawing.Color.White;
             this.mapperName.ForeColor = System.Drawing.Color.White;
@@ -85,6 +84,7 @@ namespace NoodleManager
         {
             this.active = false;
             this.BackColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.DownloadButton.BackColor = System.Drawing.Color.Red;
             this.songName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.mapperName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.artist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
@@ -120,67 +120,6 @@ namespace NoodleManager
                 this.coverImage.Location = this.pictureLocation;
                 this.big = false;
             }
-        }
-
-        private void MouseClick_callback(object sender, MouseEventArgs e)
-        {
-            string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
-
-            if (e.Button == MouseButtons.Left)
-            {
-                if (this.active && Properties.Settings.Default.path != null && downloadPath != null)
-                {
-                    Console.WriteLine(dpath);
-                    using (var client = new WebClient())
-                    {
-                        client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
-                        client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
-                        client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
-                        GlobalVariables.clients.Add(client, dpath);
-                    }
-                    this.progressBar1.Visible = true;
-                    this.Deactivate();
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                if (!GlobalVariables.clients.ContainsValue(dpath)) {
-                    RightClickDialog rightClickDialog = new RightClickDialog();
-                    Point tmp = this.PointToScreen(e.Location);
-                    tmp.X -= (rightClickDialog.Size.Width / 2);
-                    tmp.Y -= (rightClickDialog.Size.Height / 2);
-                    rightClickDialog.Location = tmp;
-                    rightClickDialog.Callback = this.RightClickDialogCallback;
-                    rightClickDialog.Show();
-                }
-            }
-        }
-
-        public bool RightClickDialogCallback(int e)
-        {
-            string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
-
-            if (e == 1)//reload
-            {
-                using (var client = new WebClient())
-                {
-                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
-                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
-                    client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
-                    GlobalVariables.clients.Add(client, dpath);
-                }
-                this.progressBar1.Visible = true;
-                this.Deactivate();
-            }
-            else if (e==2)//delete
-            {
-                if (File.Exists(dpath))
-                {
-                    File.Delete(dpath);
-                }
-                this.Activate();
-            }
-            return true;
         }
 
         private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
@@ -220,6 +159,52 @@ namespace NoodleManager
                 this.coverImage.Size = this.pictureSize;
                 this.coverImage.Location = this.pictureLocation;
                 this.big = false;
+            }
+        }
+
+        private void PlayButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DownloadButton_Click(object sender, EventArgs e)
+        {
+            string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
+
+            if (this.active && Properties.Settings.Default.path != null && downloadPath != null)
+            {
+                Console.WriteLine(dpath);
+                using (var client = new WebClient())
+                {
+                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
+                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
+                    client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
+                    GlobalVariables.clients.Add(client, dpath);
+                }
+                this.progressBar1.Visible = true;
+                this.Deactivate();
+            }
+            else
+            {
+                if (GlobalVariables.clients.ContainsValue(dpath))
+                {
+                    foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
+                    {
+                        if (c.Value.Equals(dpath))
+                        {
+                            if (c.Key != null)
+                            {
+                                c.Key.CancelAsync();
+                            }
+                        }
+                    }
+                }
+
+                if (File.Exists(dpath))
+                {
+                    File.Delete(dpath);
+                }
+                this.Activate();
             }
         }
     }
