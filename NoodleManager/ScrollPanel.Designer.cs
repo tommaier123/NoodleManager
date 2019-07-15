@@ -52,6 +52,6 @@
 
         #endregion
 
-        private ScrollBar scrollBar;
+        public ScrollBar scrollBar;
     }
 }

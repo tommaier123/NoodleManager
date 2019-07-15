@@ -28,8 +28,6 @@ namespace NoodleManager
             this.scrollBar.Resize += new EventHandler(this.Resize_callback);
 
             this.scrollBar.MouseLeave += new EventHandler(this.MouseLeave_callback);
-
-            //this.scrollBar.MouseWheel += new MouseEventHandler(this.MouseWheel_callback);
         }
 
         public void SetControl(Control s)
@@ -41,7 +39,7 @@ namespace NoodleManager
                 c.MouseWheel += new MouseEventHandler(this.MouseWheel_callback);
                 foreach (Control cc in c.Controls)
                 {
-                    cc.MouseWheel += new MouseEventHandler(this.MouseWheel_callback); 
+                    cc.MouseWheel += new MouseEventHandler(this.MouseWheel_callback);
                 }
             }
         }
@@ -52,6 +50,10 @@ namespace NoodleManager
             {
                 int scrollheight = this.scrollBar.Size.Height - this.scrollBar.grabber.Size.Height;
                 int scrollable = this.scrollControl.Size.Height - this.scrollBar.Size.Height;
+                if (scrollable < 0)
+                {
+                    scrollable = 0;
+                }
                 Point temp = scrollControl.Location;
 
                 temp.Y = (int)(down_sloc.Y + scrollable * ((down_mloc.Y - e.Location.Y) / (double)scrollheight));
@@ -68,7 +70,14 @@ namespace NoodleManager
                 this.scrollControl.Location = temp;
 
                 Point temp2 = this.scrollBar.grabber.Location;
-                temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
+                if (scrollable > 0)
+                {
+                    temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
+                }
+                else
+                {
+                    temp2.Y = 0;
+                }
                 this.scrollBar.grabber.Location = temp2;
             }
         }
@@ -79,9 +88,13 @@ namespace NoodleManager
             {
                 int scrollheight = this.scrollBar.Size.Height - this.scrollBar.grabber.Size.Height;
                 int scrollable = this.scrollControl.Size.Height - this.scrollBar.Size.Height;
+                if (scrollable < 0)
+                {
+                    scrollable = 0;
+                }
                 Point temp = scrollControl.Location;
 
-                if (e.Delta>0)
+                if (e.Delta > 0)
                 {
                     temp.Y += 60;
                 }
@@ -102,7 +115,14 @@ namespace NoodleManager
                 this.scrollControl.Location = temp;
 
                 Point temp2 = this.scrollBar.grabber.Location;
-                temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
+                if (scrollable > 0)
+                {
+                    temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
+                }
+                else
+                {
+
+                }
                 this.scrollBar.grabber.Location = temp2;
             }
         }
@@ -113,6 +133,10 @@ namespace NoodleManager
             {
                 int scrollheight = this.scrollBar.Size.Height - this.scrollBar.grabber.Size.Height;
                 int scrollable = this.scrollControl.Size.Height - this.scrollBar.Size.Height;
+                if (scrollable < 0)
+                {
+                    scrollable = 0;
+                }
                 Point temp = scrollControl.Location;
 
                 if (temp.Y < -scrollable)
@@ -122,7 +146,14 @@ namespace NoodleManager
                 }
 
                 Point temp2 = this.scrollBar.grabber.Location;
-                temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
+                if (scrollable > 0)
+                {
+                    temp2.Y = (int)(-scrollheight * temp.Y / (double)scrollable);
+                }
+                else
+                {
+                    temp2.Y = 0;
+                }
                 this.scrollBar.grabber.Location = temp2;
             }
         }
