@@ -19,6 +19,7 @@ namespace NoodleManager
         public bool active = true;
         public string[] difficulties;
 
+        private bool mouseOver = false;
         private Size pictureSize;
         private Point pictureLocation;
         private bool big = false;
@@ -135,6 +136,7 @@ namespace NoodleManager
 
         private void MouseEnter_callback(object sender, EventArgs e)
         {
+            mouseOver = true;
             if (this.active && !this.big)
             {
                 this.big = true;
@@ -154,11 +156,29 @@ namespace NoodleManager
 
         private void MouseLeave_callback(object sender, EventArgs e)
         {
-            if (this.active && this.big)
+            this.mouseOver = false;
+            Task.Delay(1).ContinueWith(t => MouseLeave_F());
+        }
+
+        private void MouseLeave_F()
+        {
+            MethodInvoker methodInvokerDelegate = delegate ()
             {
-                this.coverImage.Size = this.pictureSize;
-                this.coverImage.Location = this.pictureLocation;
-                this.big = false;
+                if (!mouseOver && active && big)
+                {
+                    coverImage.Size = pictureSize;
+                    coverImage.Location = pictureLocation;
+                    big = false;
+                }
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(methodInvokerDelegate);
+            }
+            else
+            {
+                methodInvokerDelegate();
             }
         }
 
