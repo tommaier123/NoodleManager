@@ -50,6 +50,8 @@ namespace NoodleManager
         private void LoadSongs(string path)
         {
             this.songMenu.tableLayoutPanel.Controls.Clear();
+            this.songMenu.tableLayoutPanel.Location = new Point(0, 0);
+            this.songMenu.scrollBar.grabber.Location = new Point(0, 0);
 
             string content = new WebClient().DownloadString(path);
             SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
@@ -137,6 +139,7 @@ namespace NoodleManager
 
         private void Songs_Click(object sender, EventArgs e)
         {
+            this.searchText.Text = "";
             if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
             {
                 ShowSettings();
@@ -160,11 +163,14 @@ namespace NoodleManager
                 this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
                 this.songMenu.Focus();
+
+                Search();
             }
         }
 
         private void Mods_Click(object sender, EventArgs e)
         {
+            this.searchText.Text = "";
             if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
             {
                 ShowSettings();
@@ -198,6 +204,7 @@ namespace NoodleManager
 
         private void ShowSettings()
         {
+            this.searchText.Text = "";
             songMenu.Enabled = false;
             songMenu.Visible = false;
 
