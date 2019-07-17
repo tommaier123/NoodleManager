@@ -49,7 +49,9 @@ namespace NoodleManager
             this.active = true;
             this.BackColor = this.originalColor;
             this.progressBar1.Value = 0;
-            this.DownloadButton.BackColor = System.Drawing.Color.Lime;
+            this.DownloadButton.Image = global::NoodleManager.Properties.Resources.download_u;
+            this.DownloadLabel.Text = "DOWNLOAD";
+            this.DownloadLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(234)))), ((int)(((byte)(59)))));
 
             this.songName.ForeColor = System.Drawing.Color.White;
             this.mapperName.ForeColor = System.Drawing.Color.White;
@@ -85,7 +87,10 @@ namespace NoodleManager
         {
             this.active = false;
             this.BackColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.DownloadButton.BackColor = System.Drawing.Color.Red;
+            this.DownloadButton.Image = global::NoodleManager.Properties.Resources.delete_u;
+            this.DownloadLabel.Text = "DELETE";
+            this.DownloadLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(59)))), ((int)(((byte)(103)))));
+
             this.songName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.mapperName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.artist.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));

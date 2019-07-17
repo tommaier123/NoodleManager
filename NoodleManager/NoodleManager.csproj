@@ -163,9 +163,6 @@
     <None Include="Resources\noodleManagerLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SearchIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\close.png" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +176,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon-nm.ico" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\play_u1.png" />
+    <None Include="Resources\play_s1.png" />
+    <None Include="Resources\download_u1.png" />
+    <None Include="Resources\download_s1.png" />
+    <None Include="Resources\delete_u1.png" />
+    <None Include="Resources\delete_s1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
