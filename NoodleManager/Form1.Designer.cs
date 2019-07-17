@@ -92,7 +92,7 @@
             this.searchText.Location = new System.Drawing.Point(382, 23);
             this.searchText.MinimumSize = new System.Drawing.Size(0, 20);
             this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(202, 20);
+            this.searchText.Size = new System.Drawing.Size(202, 19);
             this.searchText.TabIndex = 3;
             this.searchText.WordWrap = false;
             // 
@@ -169,7 +169,7 @@
             // 
             this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.searchButton.ErrorImage = null;
-            this.searchButton.Image = global::NoodleManager.Properties.Resources.SearchIcon;
+            this.searchButton.Image = global::NoodleManager.Properties.Resources.search;
             this.searchButton.InitialImage = null;
             this.searchButton.Location = new System.Drawing.Point(590, 23);
             this.searchButton.Name = "searchButton";

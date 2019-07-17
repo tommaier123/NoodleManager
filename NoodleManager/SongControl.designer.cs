@@ -30,7 +30,6 @@
         {
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.DownloadButton = new System.Windows.Forms.PictureBox();
-            this.PlayButton = new System.Windows.Forms.PictureBox();
             this.Master = new NoodleManager.LabelNM();
             this.Expert = new NoodleManager.LabelNM();
             this.Hard = new NoodleManager.LabelNM();
@@ -42,18 +41,21 @@
             this.mapperName = new NoodleManager.LabelNM();
             this.songName = new NoodleManager.LabelNM();
             this.coverImage = new NoodleManager.PictureBoxNM();
+            this.PlayLabel = new NoodleManager.LabelNM();
+            this.PlayButton = new System.Windows.Forms.PictureBox();
+            this.DownloadLabel = new NoodleManager.LabelNM();
             ((System.ComponentModel.ISupportInitialize)(this.DownloadButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PlayButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.coverImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PlayButton)).BeginInit();
             this.SuspendLayout();
             // 
             // progressBar1
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(645, 115);
+            this.progressBar1.Location = new System.Drawing.Point(649, 121);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 24);
+            this.progressBar1.Size = new System.Drawing.Size(106, 10);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 12;
             this.progressBar1.Visible = false;
@@ -61,28 +63,17 @@
             // DownloadButton
             // 
             this.DownloadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.DownloadButton.BackColor = System.Drawing.Color.Lime;
+            this.DownloadButton.BackColor = System.Drawing.Color.Transparent;
             this.DownloadButton.ErrorImage = null;
+            this.DownloadButton.Image = global::NoodleManager.Properties.Resources.download_u;
             this.DownloadButton.InitialImage = null;
-            this.DownloadButton.Location = new System.Drawing.Point(645, 85);
+            this.DownloadButton.Location = new System.Drawing.Point(649, 87);
             this.DownloadButton.Name = "DownloadButton";
-            this.DownloadButton.Size = new System.Drawing.Size(100, 24);
+            this.DownloadButton.Size = new System.Drawing.Size(106, 29);
+            this.DownloadButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.DownloadButton.TabIndex = 22;
             this.DownloadButton.TabStop = false;
             this.DownloadButton.Click += new System.EventHandler(this.DownloadButton_Click);
-            // 
-            // PlayButton
-            // 
-            this.PlayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PlayButton.BackColor = System.Drawing.Color.White;
-            this.PlayButton.ErrorImage = null;
-            this.PlayButton.InitialImage = null;
-            this.PlayButton.Location = new System.Drawing.Point(645, 55);
-            this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(100, 24);
-            this.PlayButton.TabIndex = 23;
-            this.PlayButton.TabStop = false;
-            this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
             // Master
             // 
@@ -211,11 +202,53 @@
             this.coverImage.TabIndex = 1;
             this.coverImage.TabStop = false;
             // 
+            // PlayLabel
+            // 
+            this.PlayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PlayLabel.BackColor = System.Drawing.Color.Transparent;
+            this.PlayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PlayLabel.ForeColor = System.Drawing.Color.White;
+            this.PlayLabel.Location = new System.Drawing.Point(659, 56);
+            this.PlayLabel.Name = "PlayLabel";
+            this.PlayLabel.Size = new System.Drawing.Size(85, 20);
+            this.PlayLabel.TabIndex = 24;
+            this.PlayLabel.Text = "PLAY";
+            this.PlayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PlayButton
+            // 
+            this.PlayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PlayButton.BackColor = System.Drawing.Color.Transparent;
+            this.PlayButton.ErrorImage = null;
+            this.PlayButton.Image = global::NoodleManager.Properties.Resources.play_u;
+            this.PlayButton.InitialImage = null;
+            this.PlayButton.Location = new System.Drawing.Point(649, 52);
+            this.PlayButton.Name = "PlayButton";
+            this.PlayButton.Size = new System.Drawing.Size(106, 29);
+            this.PlayButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PlayButton.TabIndex = 23;
+            this.PlayButton.TabStop = false;
+            this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
+            // 
+            // DownloadLabel
+            // 
+            this.DownloadLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DownloadLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DownloadLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(234)))), ((int)(((byte)(59)))));
+            this.DownloadLabel.Location = new System.Drawing.Point(659, 91);
+            this.DownloadLabel.Name = "DownloadLabel";
+            this.DownloadLabel.Size = new System.Drawing.Size(85, 20);
+            this.DownloadLabel.TabIndex = 25;
+            this.DownloadLabel.Text = "DOWNLOAD";
+            this.DownloadLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // SongControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.Controls.Add(this.DownloadLabel);
+            this.Controls.Add(this.PlayLabel);
             this.Controls.Add(this.PlayButton);
             this.Controls.Add(this.DownloadButton);
             this.Controls.Add(this.Master);
@@ -233,9 +266,9 @@
             this.Name = "SongControl";
             this.Size = new System.Drawing.Size(780, 160);
             ((System.ComponentModel.ISupportInitialize)(this.DownloadButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PlayButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.coverImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PlayButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,6 +289,8 @@
         public LabelNM Expert;
         public LabelNM Master;
         private System.Windows.Forms.PictureBox DownloadButton;
+        private LabelNM PlayLabel;
         private System.Windows.Forms.PictureBox PlayButton;
+        private LabelNM DownloadLabel;
     }
 }
