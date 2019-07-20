@@ -17,6 +17,7 @@ namespace NoodleManager
         public string filename_original = "default.synth";
         public string cover_url = "";
         public string download_url = "";
+        public string preview_url = "";
         public string created_at = "N/A";
         public string updated_at = "N/A";
         public float version = -1;

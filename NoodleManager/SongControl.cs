@@ -29,7 +29,6 @@ namespace NoodleManager
         public SongControl()
         {
             InitializeComponent();
-
             this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
             this.MouseEnter += new EventHandler(MouseEnter_callback);
@@ -137,6 +136,11 @@ namespace NoodleManager
         {
             this.progressBar1.Visible = false;
             GlobalVariables.clients.Remove((WebClient)sender);
+
+            if (e.Cancelled || e.Error != null)
+            {
+                this.Delete();
+            }
         }
 
         private void MouseEnter_callback(object sender, EventArgs e)
@@ -189,48 +193,69 @@ namespace NoodleManager
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+            }
         }
 
         private void DownloadButton_Click(object sender, EventArgs e)
         {
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
+
+                if (this.active && Properties.Settings.Default.path != null && downloadPath != null)
+                {
+                    try
+                    {
+                        Console.WriteLine(dpath);
+                        using (var client = new WebClient())
+                        {
+                            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
+                            client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
+                            client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
+                            GlobalVariables.clients.Add(client, dpath);
+                        }
+                        this.progressBar1.Value = 1;
+                        this.progressBar1.Visible = true;
+                        this.Deactivate();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    Delete();
+                }
+            }
+        }
+
+        private void Delete()
+        {
             string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
 
-            if (this.active && Properties.Settings.Default.path != null && downloadPath != null)
+            if (GlobalVariables.clients.ContainsValue(dpath))
             {
-                Console.WriteLine(dpath);
-                using (var client = new WebClient())
+                foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
                 {
-                    client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
-                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
-                    client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
-                    GlobalVariables.clients.Add(client, dpath);
-                }
-                this.progressBar1.Visible = true;
-                this.Deactivate();
-            }
-            else
-            {
-                if (GlobalVariables.clients.ContainsValue(dpath))
-                {
-                    foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
+                    if (c.Value.Equals(dpath))
                     {
-                        if (c.Value.Equals(dpath))
+                        if (c.Key != null)
                         {
-                            if (c.Key != null)
-                            {
-                                c.Key.CancelAsync();
-                            }
+                            c.Key.CancelAsync();
+                            c.Key.Dispose();
                         }
                     }
                 }
-
-                if (File.Exists(dpath))
-                {
-                    File.Delete(dpath);
-                }
-                this.Activate();
             }
+
+            if (File.Exists(dpath))
+            {
+                File.Delete(dpath);
+            }
+            this.Activate();
         }
     }
 }
