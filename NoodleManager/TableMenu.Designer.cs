@@ -31,6 +31,12 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
+            // scrollBar
+            // 
+            this.scrollBar.Cursor = System.Windows.Forms.Cursors.NoMoveVert;
+            this.scrollBar.Location = new System.Drawing.Point(780, 0);
+            this.scrollBar.Size = new System.Drawing.Size(20, 498);
+            // 
             // tableLayoutPanel
             // 
             this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -56,6 +62,7 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "TableMenu";
             this.Size = new System.Drawing.Size(800, 498);
+            this.Controls.SetChildIndex(this.scrollBar, 0);
             this.Controls.SetChildIndex(this.tableLayoutPanel, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
