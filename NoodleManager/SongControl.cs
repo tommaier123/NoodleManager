@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using NAudio.Wave;
 
 namespace NoodleManager
 {
     public partial class SongControl : UserControl
     {
         public string downloadPath;
+        public string previewPath;
         public string originalFilename;
         public bool active = true;
         public string[] difficulties;
@@ -25,6 +27,7 @@ namespace NoodleManager
         private bool big = false;
         private int diff = 35;
         private Color originalColor;
+        private bool playing = false;
 
         public SongControl()
         {
@@ -195,7 +198,46 @@ namespace NoodleManager
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
+                if (GlobalVariables.AudioReader != null) { GlobalVariables.AudioReader.Dispose(); }
+                if (GlobalVariables.MusicPlayer != null) { GlobalVariables.MusicPlayer.Dispose(); }
+
+                if (!playing)
+                {
+                    try
+                    {
+                        GlobalVariables.AudioReader = new MediaFoundationReader(previewPath);
+                        GlobalVariables.MusicPlayer = new WaveOut();
+                        GlobalVariables.MusicPlayer.PlaybackStopped += PlaybackStoppedCallback;
+                        GlobalVariables.MusicPlayer.Init(GlobalVariables.AudioReader);
+                        GlobalVariables.MusicPlayer.Play();
+                        playing = true;
+                        this.PlayLabel.Text = "STOP";
+                        this.PlayLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(34)))), ((int)(((byte)(203)))));
+                        this.PlayButton.Image = global::NoodleManager.Properties.Resources.stop_u;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    StopPlayback();
+                }
             }
+        }
+
+        public void StopPlayback()
+        {
+            this.PlayLabel.Text = "PLAY";
+            this.PlayLabel.ForeColor = Color.White;
+            this.PlayButton.Image = global::NoodleManager.Properties.Resources.play_u;
+            playing = false;
+        }
+
+        private void PlaybackStoppedCallback(object sender, StoppedEventArgs e)
+        {
+            StopPlayback();
         }
 
         private void DownloadButton_Click(object sender, EventArgs e)
