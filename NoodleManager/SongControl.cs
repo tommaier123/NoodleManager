@@ -205,6 +205,7 @@ namespace NoodleManager
                 {
                     try
                     {
+                        Cursor.Current = Cursors.WaitCursor;
                         GlobalVariables.AudioReader = new MediaFoundationReader(previewPath);
                         GlobalVariables.MusicPlayer = new WaveOut();
                         GlobalVariables.MusicPlayer.PlaybackStopped += PlaybackStoppedCallback;
@@ -214,6 +215,7 @@ namespace NoodleManager
                         this.PlayLabel.Text = "STOP";
                         this.PlayLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(34)))), ((int)(((byte)(203)))));
                         this.PlayButton.Image = global::NoodleManager.Properties.Resources.stop_u;
+                        Cursor.Current = Cursors.Default;
                     }
                     catch
                     {
