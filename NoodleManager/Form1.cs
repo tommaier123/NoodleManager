@@ -78,6 +78,7 @@ namespace NoodleManager
                 {
                     SongControl song = new SongControl();
                     song.downloadPath = baseurl + item.download_url;
+                    song.previewPath = baseurl + item.preview_url;
                     song.originalFilename = item.filename_original;
                     song.coverImage.ImageLocation = baseurl + item.cover_url;
                     song.songName.Text = item.title + " - " + item.artist;
@@ -146,6 +147,8 @@ namespace NoodleManager
                 else
                 {
                     e.Cancel = true;
+                    if (GlobalVariables.AudioReader != null) { GlobalVariables.AudioReader.Dispose(); }
+                    if (GlobalVariables.MusicPlayer != null) { GlobalVariables.MusicPlayer.Dispose(); }
                 }
             }
         }
