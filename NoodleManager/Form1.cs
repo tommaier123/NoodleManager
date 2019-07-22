@@ -69,9 +69,9 @@ namespace NoodleManager
 
         private void DownloadCompleteCallback(object sender, DownloadStringCompletedEventArgs e)
         {
-            string content = e.Result;
             if (!e.Cancelled && e.Error == null && e.Result != null && e.Result != "")
             {
+                string content = e.Result;
                 SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
 
                 foreach (SongInfo item in items)
