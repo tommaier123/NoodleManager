@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4A00C80E-F8B2-4B89-BBBE-57E17F07053F}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>NoodleManager</RootNamespace>
     <AssemblyName>NoodleManager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -73,12 +73,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RightClickDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RightClickDialog.Designer.cs">
-      <DependentUpon>RightClickDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="ScrollBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,9 +120,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RightClickDialog.resx">
-      <DependentUpon>RightClickDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ScrollBar.resx">
       <DependentUpon>ScrollBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -158,6 +149,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NAudio">
+      <Version>1.9.0</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
     </PackageReference>
@@ -170,9 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\noodleManagerLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SearchIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\close.png" />
@@ -188,6 +179,34 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon-nm.ico" />
+    <None Include="Resources\stop_u.png" />
+    <None Include="Resources\stop_s.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\play_u1.png" />
+    <None Include="Resources\play_s1.png" />
+    <None Include="Resources\download_u1.png" />
+    <None Include="Resources\download_s1.png" />
+    <None Include="Resources\delete_u1.png" />
+    <None Include="Resources\delete_s1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
