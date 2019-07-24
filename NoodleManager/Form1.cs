@@ -39,68 +39,87 @@ namespace NoodleManager
 
             this.FormClosing += FormclosingCallback;
 
-            LoadSongs(baseurl + beatmapsurl);
-
             this.searchText.KeyDown += new KeyEventHandler(this.SearchKeyDownCallback);
 
             this.songMenu.Focus();
+
+            DownloadString(baseurl + beatmapsurl);
         }
 
-
-        private void LoadSongs(string path)
+        private void DownloadString(string path)
         {
             this.songMenu.tableLayoutPanel.Controls.Clear();
+            this.songMenu.tableLayoutPanel.Visible = false;
             this.songMenu.tableLayoutPanel.Location = new Point(0, 0);
             this.songMenu.scrollBar.grabber.Location = new Point(0, 0);
-
-            string content = new WebClient().DownloadString(path);
-            SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
-
-            foreach (SongInfo item in items)
+            this.Cursor = Cursors.WaitCursor;
+            try
             {
-                WebClient client = new WebClient();
-
-                SongControl song = new SongControl();
-                song.downloadPath = baseurl + item.download_url;
-                song.originalFilename = item.filename_original;
-                song.coverImage.ImageLocation = baseurl + item.cover_url;
-                song.songName.Text = item.title + " - " + item.artist;
-                song.mapperName.Text = item.mapper;
-                song.difficulties = item.difficulties;
-                song.artist.Text = item.artist;
-                song.duration.Text = item.duration;
-
-                foreach (string difficulty in item.difficulties)
+                using (var client = new WebClient())
                 {
-                    if (difficulty.Equals("Easy"))
-                    {
-                        song.Easy.ForeColor = System.Drawing.Color.White;
-                    }
-                    else if (difficulty.Equals("Normal"))
-                    {
-                        song.Normal.ForeColor = System.Drawing.Color.White;
-                    }
-                    else if (difficulty.Equals("Hard"))
-                    {
-                        song.Hard.ForeColor = System.Drawing.Color.White;
-                    }
-                    else if (difficulty.Equals("Expert"))
-                    {
-                        song.Expert.ForeColor = System.Drawing.Color.White;
-                    }
-                    else if (difficulty.Equals("Master"))
-                    {
-                        song.Master.ForeColor = System.Drawing.Color.White;
-                    }
+                    client.DownloadStringCompleted += DownloadCompleteCallback;
+                    client.DownloadStringAsync(new Uri(path));
                 }
-
-                if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
-                {
-                    song.Deactivate();
-                }
-
-                this.songMenu.tableLayoutPanel.Controls.Add(song);
             }
+            catch
+            {
+
+            }
+        }
+
+        private void DownloadCompleteCallback(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (!e.Cancelled && e.Error == null && e.Result != null && e.Result != "")
+            {
+                string content = e.Result;
+                SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
+
+                foreach (SongInfo item in items)
+                {
+                    SongControl song = new SongControl();
+                    song.downloadPath = baseurl + item.download_url;
+                    song.previewPath = baseurl + item.preview_url;
+                    song.originalFilename = item.filename_original;
+                    song.coverImage.ImageLocation = baseurl + item.cover_url;
+                    song.songName.Text = item.title + " - " + item.artist;
+                    song.mapperName.Text = item.mapper;
+                    song.difficulties = item.difficulties;
+                    song.artist.Text = item.artist;
+                    song.duration.Text = item.duration;
+
+                    foreach (string difficulty in item.difficulties)
+                    {
+                        if (difficulty.Equals("Easy"))
+                        {
+                            song.Easy.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (difficulty.Equals("Normal"))
+                        {
+                            song.Normal.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (difficulty.Equals("Hard"))
+                        {
+                            song.Hard.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (difficulty.Equals("Expert"))
+                        {
+                            song.Expert.ForeColor = System.Drawing.Color.White;
+                        }
+                        else if (difficulty.Equals("Master"))
+                        {
+                            song.Master.ForeColor = System.Drawing.Color.White;
+                        }
+                    }
+
+                    if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
+                    {
+                        song.Deactivate();
+                    }
+                    this.songMenu.tableLayoutPanel.Controls.Add(song);
+                    this.songMenu.tableLayoutPanel.Visible = true;
+                }
+            }
+            this.Cursor = Cursors.Default;
         }
 
         private void FormclosingCallback(object sender, FormClosingEventArgs e)
@@ -121,85 +140,89 @@ namespace NoodleManager
                         if (c.Key != null)
                         {
                             c.Key.CancelAsync();
-                        }
-
-                        if (File.Exists(c.Value))
-                        {
-                            File.Delete(c.Value);
+                            c.Key.Dispose();
                         }
                     }
                 }
                 else
                 {
                     e.Cancel = true;
+                    if (GlobalVariables.AudioReader != null) { GlobalVariables.AudioReader.Dispose(); }
+                    if (GlobalVariables.MusicPlayer != null) { GlobalVariables.MusicPlayer.Dispose(); }
                 }
             }
         }
 
-
         private void Songs_Click(object sender, EventArgs e)
         {
-            this.searchText.Text = "";
-            if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                ShowSettings();
-            }
-            else
-            {
-                Properties.Settings.Default.path = settingsMenu.textBox1.Text;
-                Properties.Settings.Default.Save();
+                this.searchText.Text = "";
+                if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+                {
+                    ShowSettings();
+                }
+                else
+                {
+                    Properties.Settings.Default.path = settingsMenu.textBox1.Text;
+                    Properties.Settings.Default.Save();
 
-                songMenu.Enabled = true;
-                songMenu.Visible = true;
+                    songMenu.Enabled = true;
+                    songMenu.Visible = true;
 
-                modMenu.Enabled = false;
-                modMenu.Visible = false;
+                    modMenu.Enabled = false;
+                    modMenu.Visible = false;
 
-                settingsMenu.Enabled = false;
-                settingsMenu.Visible = false;
+                    settingsMenu.Enabled = false;
+                    settingsMenu.Visible = false;
 
-                this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
-                this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
-                this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
+                    this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
+                    this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+                    this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
-                this.songMenu.Focus();
-
-                Search();
+                    this.songMenu.Focus();
+                }
             }
         }
 
         private void Mods_Click(object sender, EventArgs e)
         {
-            this.searchText.Text = "";
-            if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                ShowSettings();
-            }
-            else
-            {
-                Properties.Settings.Default.path = settingsMenu.textBox1.Text;
-                Properties.Settings.Default.Save();
+                this.searchText.Text = "";
+                if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+                {
+                    ShowSettings();
+                }
+                else
+                {
+                    Properties.Settings.Default.path = settingsMenu.textBox1.Text;
+                    Properties.Settings.Default.Save();
 
-                songMenu.Enabled = false;
-                songMenu.Visible = false;
+                    songMenu.Enabled = false;
+                    songMenu.Visible = false;
 
-                modMenu.Enabled = true;
-                modMenu.Visible = true;
+                    modMenu.Enabled = true;
+                    modMenu.Visible = true;
 
-                settingsMenu.Enabled = false;
-                settingsMenu.Visible = false;
+                    settingsMenu.Enabled = false;
+                    settingsMenu.Visible = false;
 
-                this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
-                this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
-                this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
+                    this.songsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+                    this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(249)))), ((int)(((byte)(28)))), ((int)(((byte)(133)))));
+                    this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
-                this.modMenu.Focus();
+                    this.modMenu.Focus();
+                }
             }
         }
 
         private void Settings_Click(object sender, EventArgs e)
         {
-            ShowSettings();
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                ShowSettings();
+            }
         }
 
         private void ShowSettings()
@@ -225,7 +248,10 @@ namespace NoodleManager
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            Search();
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                Search();
+            }
         }
 
         private void SearchKeyDownCallback(object sender, KeyEventArgs e)
@@ -252,7 +278,7 @@ namespace NoodleManager
                 mode = "artist";
             }
 
-            LoadSongs(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
+            DownloadString(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
         }
 
         protected override void WndProc(ref Message m)//using the windows defaut resize with a borderless window
@@ -356,24 +382,33 @@ namespace NoodleManager
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                this.Close();
+            }
         }
 
         private void FullscreenButton_Click(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Maximized)
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                this.WindowState = FormWindowState.Normal;
-            }
-            else
-            {
-                this.WindowState = FormWindowState.Maximized;
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    this.WindowState = FormWindowState.Normal;
+                }
+                else
+                {
+                    this.WindowState = FormWindowState.Maximized;
+                }
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void MinimizeButton_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
     }
 }
