@@ -92,7 +92,7 @@
             this.searchText.Location = new System.Drawing.Point(382, 23);
             this.searchText.MinimumSize = new System.Drawing.Size(0, 20);
             this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(202, 20);
+            this.searchText.Size = new System.Drawing.Size(202, 19);
             this.searchText.TabIndex = 3;
             this.searchText.WordWrap = false;
             // 
@@ -270,7 +270,7 @@
             this.labelNM1.Name = "labelNM1";
             this.labelNM1.Size = new System.Drawing.Size(38, 13);
             this.labelNM1.TabIndex = 17;
-            this.labelNM1.Text = "V1.2.0";
+            this.labelNM1.Text = "V1.2.6";
             // 
             // Form1
             // 
