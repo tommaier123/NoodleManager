@@ -235,7 +235,7 @@
             // 
             // coverImage
             // 
-            this.coverImage.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.coverImage.BackColor = System.Drawing.Color.Transparent;
             this.coverImage.ErrorImage = null;
             this.coverImage.InitialImage = null;
             this.coverImage.Location = new System.Drawing.Point(45, 30);
