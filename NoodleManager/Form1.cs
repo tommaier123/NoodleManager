@@ -84,7 +84,6 @@ namespace NoodleManager
                     song.originalFilename = item.filename_original;
                     song.coverImage.ImageLocation = baseurl + item.cover_url + "?size=150";
                     song.songName.Text = item.title;
-                    Console.OutputEncoding = System.Text.Encoding.UTF8;
                     song.mapperName.Text = item.mapper;
                     song.difficulties = item.difficulties;
                     song.artist.Text = item.artist;

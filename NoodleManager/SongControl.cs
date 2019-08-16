@@ -273,11 +273,6 @@ namespace NoodleManager
             playing = false;
         }
 
-        private void PlaybackStoppedCallback(object sender, StoppedEventArgs e)
-        {
-            StopPlayback();
-        }
-
         private void DownloadButton_Click(object sender, EventArgs e)
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
