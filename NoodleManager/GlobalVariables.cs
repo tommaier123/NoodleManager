@@ -14,7 +14,16 @@ namespace NoodleManager
     {
         public static Dictionary<WebClient, string> clients = new Dictionary<WebClient, string>();
 
-        public static IWavePlayer MusicPlayer;
-        public static MediaFoundationReader AudioReader;
+        public static SongControl PlayingSongs;
+
+        public static void PlayNew(SongControl s)
+        {
+            if (PlayingSongs != null)
+            {
+                PlayingSongs.StopPlayback();
+            }
+            PlayingSongs = s;
+            PlayingSongs.StartPlayback();
+        }
     }
 }

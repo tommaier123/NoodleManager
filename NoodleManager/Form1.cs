@@ -146,9 +146,8 @@ namespace NoodleManager
                 }
                 else
                 {
+                    GlobalVariables.PlayingSongs.StopPlayback();
                     e.Cancel = true;
-                    if (GlobalVariables.AudioReader != null) { GlobalVariables.AudioReader.Dispose(); }
-                    if (GlobalVariables.MusicPlayer != null) { GlobalVariables.MusicPlayer.Dispose(); }
                 }
             }
         }
@@ -158,6 +157,7 @@ namespace NoodleManager
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
                 this.searchText.Text = "";
+                GlobalVariables.PlayingSongs.StopPlayback();
                 if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
                 {
                     ShowSettings();
@@ -190,6 +190,7 @@ namespace NoodleManager
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
                 this.searchText.Text = "";
+                GlobalVariables.PlayingSongs.StopPlayback();
                 if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
                 {
                     ShowSettings();
@@ -228,6 +229,7 @@ namespace NoodleManager
         private void ShowSettings()
         {
             this.searchText.Text = "";
+            GlobalVariables.PlayingSongs.StopPlayback();
             songMenu.Enabled = false;
             songMenu.Visible = false;
 
@@ -264,6 +266,7 @@ namespace NoodleManager
 
         private void Search()
         {
+            GlobalVariables.PlayingSongs.StopPlayback();
             string mode = "q";
             if (this.searchMode.SelectedIndex == 1)
             {

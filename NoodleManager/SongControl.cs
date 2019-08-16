@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using NAudio.Wave;
+using System.Threading;
 
 namespace NoodleManager
 {
@@ -198,35 +199,70 @@ namespace NoodleManager
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                if (GlobalVariables.AudioReader != null) { GlobalVariables.AudioReader.Dispose(); }
-                if (GlobalVariables.MusicPlayer != null) { GlobalVariables.MusicPlayer.Dispose(); }
-
                 if (!playing)
                 {
-                    try
-                    {
-                        Cursor.Current = Cursors.WaitCursor;
-                        GlobalVariables.AudioReader = new MediaFoundationReader(previewPath);
-                        GlobalVariables.MusicPlayer = new WaveOut();
-                        GlobalVariables.MusicPlayer.PlaybackStopped += PlaybackStoppedCallback;
-                        GlobalVariables.MusicPlayer.Init(GlobalVariables.AudioReader);
-                        GlobalVariables.MusicPlayer.Play();
-                        playing = true;
-                        this.PlayLabel.Text = "STOP";
-                        this.PlayLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(34)))), ((int)(((byte)(203)))));
-                        this.PlayButton.Image = global::NoodleManager.Properties.Resources.stop_u;
-                        Cursor.Current = Cursors.Default;
-                    }
-                    catch
-                    {
-
-                    }
+                    GlobalVariables.PlayNew(this);
                 }
                 else
                 {
                     StopPlayback();
                 }
             }
+        }
+
+
+        public void StartPlayback()
+        {
+            var playThread = new Thread(() => Play());
+            playThread.IsBackground = true;
+            playThread.Start();
+            playing = true;
+            this.PlayLabel.Text = "STOP";
+            this.PlayButton.Image = global::NoodleManager.Properties.Resources.stop_u;
+        }
+
+        public void Play()
+        {
+            try
+            {
+                using (Stream ms = new MemoryStream())
+                {
+                    using (Stream stream = WebRequest.Create(previewPath)
+                        .GetResponse().GetResponseStream())
+                    {
+                        byte[] buffer = new byte[32768];
+                        int read;
+                        while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            ms.Write(buffer, 0, read);
+                        }
+                    }
+
+                    ms.Position = 0;
+                    using (WaveStream blockAlignedStream =
+                        new BlockAlignReductionStream(
+                            WaveFormatConversionStream.CreatePcmStream(
+                                new Mp3FileReader(ms))))
+                    {
+                        using (WaveOut waveOut = new WaveOut(WaveCallbackInfo.FunctionCallback()))
+                        {
+                            waveOut.Init(blockAlignedStream);
+                            waveOut.PlaybackStopped += (sender, e) =>
+                            {
+                                waveOut.Stop();
+                                playing = false;
+                            };
+
+                            waveOut.Play();
+                            while (playing && waveOut.PlaybackState == PlaybackState.Playing)
+                            {
+                                System.Threading.Thread.Sleep(100);
+                            }
+                        }
+                    }
+                }
+            }
+            catch { StopPlayback(); }
         }
 
         public void StopPlayback()
