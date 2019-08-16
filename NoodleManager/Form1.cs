@@ -71,7 +71,9 @@ namespace NoodleManager
         {
             if (!e.Cancelled && e.Error == null && e.Result != null && e.Result != "")
             {
-                string content = e.Result;
+                byte[] bytes = Encoding.Default.GetBytes(e.Result);
+                string content = Encoding.UTF8.GetString(bytes);
+
                 SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
 
                 foreach (SongInfo item in items)
@@ -81,7 +83,8 @@ namespace NoodleManager
                     song.previewPath = baseurl + item.preview_url;
                     song.originalFilename = item.filename_original;
                     song.coverImage.ImageLocation = baseurl + item.cover_url + "?size=150";
-                    song.songName.Text = item.title + " - " + item.artist;
+                    song.songName.Text = item.title;
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
                     song.mapperName.Text = item.mapper;
                     song.difficulties = item.difficulties;
                     song.artist.Text = item.artist;
