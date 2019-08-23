@@ -24,10 +24,6 @@ namespace NoodleManager
         public Form1()
         {
             InitializeComponent();
-            if (!Directory.Exists(Properties.Settings.Default.path + @"\CustomSongs\"))
-            {
-                ShowSettings();
-            }
 
             this.pictureBoxNM1.SendToBack();
 
@@ -41,9 +37,15 @@ namespace NoodleManager
 
             this.searchText.KeyDown += new KeyEventHandler(this.SearchKeyDownCallback);
 
-            this.songMenu.Focus();
-
-            DownloadString(baseurl + beatmapsurl);
+            if (!Directory.Exists(Properties.Settings.Default.path + @"\CustomSongs\"))
+            {
+                ShowSettings();
+            }
+            else
+            {
+                this.songMenu.Focus();
+                DownloadString(baseurl + beatmapsurl);
+            }
         }
 
         private void DownloadString(string path)
@@ -148,7 +150,7 @@ namespace NoodleManager
                 }
                 else
                 {
-                    GlobalVariables.PlayingSongs.StopPlayback();
+                    GlobalVariables.StopPlayback();
                     e.Cancel = true;
                 }
             }
@@ -159,7 +161,7 @@ namespace NoodleManager
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
                 this.searchText.Text = "";
-                GlobalVariables.PlayingSongs.StopPlayback();
+                GlobalVariables.StopPlayback();
                 if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
                 {
                     ShowSettings();
@@ -192,7 +194,7 @@ namespace NoodleManager
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
                 this.searchText.Text = "";
-                GlobalVariables.PlayingSongs.StopPlayback();
+                GlobalVariables.StopPlayback();
                 if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
                 {
                     ShowSettings();
@@ -231,7 +233,9 @@ namespace NoodleManager
         private void ShowSettings()
         {
             this.searchText.Text = "";
-            GlobalVariables.PlayingSongs.StopPlayback();
+
+            GlobalVariables.StopPlayback();
+
             songMenu.Enabled = false;
             songMenu.Visible = false;
 
@@ -268,7 +272,7 @@ namespace NoodleManager
 
         private void Search()
         {
-            GlobalVariables.PlayingSongs.StopPlayback();
+            GlobalVariables.StopPlayback();
             string mode = "q";
             if (this.searchMode.SelectedIndex == 1)
             {

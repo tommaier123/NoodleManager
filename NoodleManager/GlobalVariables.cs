@@ -25,5 +25,13 @@ namespace NoodleManager
             PlayingSongs = s;
             PlayingSongs.StartPlayback();
         }
+
+        public static void StopPlayback()
+        {
+            if (PlayingSongs != null)
+            {
+                PlayingSongs.StopPlayback();
+            }
+        }
     }
 }

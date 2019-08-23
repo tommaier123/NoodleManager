@@ -278,7 +278,7 @@
             this.labelNM1.Name = "labelNM1";
             this.labelNM1.Size = new System.Drawing.Size(38, 13);
             this.labelNM1.TabIndex = 17;
-            this.labelNM1.Text = "V1.2.7";
+            this.labelNM1.Text = "V1.2.8";
             // 
             // Form1
             // 

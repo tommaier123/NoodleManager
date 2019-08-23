@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
+using System.Diagnostics;
 
 namespace NoodleManager
 {
@@ -29,6 +30,11 @@ namespace NoodleManager
             {
                 this.textBox1.Text = this.folderBrowserDialog1.SelectedPath;
             }
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://synthriderz.com/donate");
         }
     }
 }
