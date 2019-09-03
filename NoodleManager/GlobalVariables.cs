@@ -12,7 +12,7 @@ namespace NoodleManager
 {
     public static class GlobalVariables
     {
-        public static Dictionary<WebClient, string> clients = new Dictionary<WebClient, string>();
+        public static List<SongControl> downloadingSongs=new List<SongControl>();
 
         public static SongControl PlayingSongs;
 

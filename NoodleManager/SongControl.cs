@@ -21,7 +21,9 @@ namespace NoodleManager
         public string originalFilename;
         public bool active = true;
         public string[] difficulties;
+        public int id;
 
+        private WebClient client;
         private bool mouseOver = false;
         private Size pictureSize;
         private Point pictureLocation;
@@ -139,12 +141,15 @@ namespace NoodleManager
         private void DownlaodCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             this.progressBar1.Visible = false;
-            GlobalVariables.clients.Remove((WebClient)sender);
+            GlobalVariables.downloadingSongs.Remove(this);
+            
 
             if (e.Cancelled || e.Error != null)
             {
-                this.Delete();
+                client.Disposed += new EventHandler(DisposeCallback);
+                this.client.Dispose();
             }
+            client = null;
         }
 
         private void MouseEnter_callback(object sender, EventArgs e)
@@ -277,60 +282,73 @@ namespace NoodleManager
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
-
-                if (this.active && Properties.Settings.Default.path != null && downloadPath != null)
+                if (Properties.Settings.Default.path != null)
                 {
-                    try
+                    if (this.active)
                     {
-                        Console.WriteLine(dpath);
-                        using (var client = new WebClient())
+                        if (downloadPath != null)
                         {
-                            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
-                            client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
-                            client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
-                            GlobalVariables.clients.Add(client, dpath);
+                            Download();
                         }
-                        this.progressBar1.Value = 1;
-                        this.progressBar1.Visible = true;
-                        this.Deactivate();
                     }
-                    catch
+                    else
                     {
-
+                        Delete();
                     }
-                }
-                else
-                {
-                    Delete();
                 }
             }
         }
 
-        private void Delete()
+        public void Download()
+        {
+            try
+            {
+                string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
+                Console.WriteLine(dpath);
+                this.client = new WebClient();
+
+                this.client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(this.DownloadProgressCallback);
+                this.client.DownloadFileCompleted += new AsyncCompletedEventHandler(this.DownlaodCompletedCallback);
+                this.client.DownloadFileAsync(new Uri(this.downloadPath), dpath);
+                GlobalVariables.downloadingSongs.Add(this);
+
+                this.progressBar1.Value = 1;
+                this.progressBar1.Visible = true;
+                this.Deactivate();
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void Delete()
+        {
+            if (client != null)
+            {
+                this.client.CancelAsync();
+            }
+            else
+            {
+                RemoveFile();
+            }
+        }
+
+        private void DisposeCallback(object sender, EventArgs e)
+        {
+            RemoveFile();
+        }
+
+        private void RemoveFile()
         {
             string dpath = Properties.Settings.Default.path + @"\CustomSongs\" + originalFilename;
-
-            if (GlobalVariables.clients.ContainsValue(dpath))
-            {
-                foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
-                {
-                    if (c.Value.Equals(dpath))
-                    {
-                        if (c.Key != null)
-                        {
-                            c.Key.CancelAsync();
-                            c.Key.Dispose();
-                        }
-                    }
-                }
-            }
-
+            GlobalVariables.downloadingSongs.Remove(this);
             if (File.Exists(dpath))
             {
                 File.Delete(dpath);
             }
             this.Activate();
+
         }
     }
 }

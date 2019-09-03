@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,12 +19,17 @@ namespace NoodleManager
     {
         private const int cGrip = 10;      // Grip size
         private const int cCaption = 70;   // Caption bar height;
+        private List<WebClient> downloadMarker = new List<WebClient>();
 
         public const string baseurl = "https://synthriderz.com";
         public const string beatmapsurl = "/api/beatmaps";
 
+        FileSystemWatcher watcher;
+
         public Form1()
         {
+            RegisterUriScheme();
+
             InitializeComponent();
 
             this.pictureBoxNM1.SendToBack();
@@ -43,23 +50,72 @@ namespace NoodleManager
             }
             else
             {
+                watcher = new FileSystemWatcher();
+                string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                watcher.Path = "./";
+                watcher.NotifyFilter = NotifyFilters.LastWrite;
+                watcher.Filter = "ToDownload.txt";
+                watcher.Changed += OnFileChanged;
+                watcher.EnableRaisingEvents = true;
+
                 this.songMenu.Focus();
-                DownloadString(baseurl + beatmapsurl);
+                if (ReadDownloadFile() == false)
+                {
+                    DownloadString(baseurl + beatmapsurl);
+                }
             }
         }
 
-        private void DownloadString(string path)
+        private void OnFileChanged(object source, FileSystemEventArgs e)
         {
-            this.songMenu.tableLayoutPanel.Controls.Clear();
-            this.songMenu.tableLayoutPanel.Visible = false;
-            this.songMenu.tableLayoutPanel.Location = new Point(0, 0);
-            this.songMenu.scrollBar.grabber.Location = new Point(0, 0);
-            this.Cursor = Cursors.WaitCursor;
+            Thread.Sleep(5);
+            ReadDownloadFile();
+        }
+
+        public bool ReadDownloadFile()
+        {
+            bool ret = false;
+            string[] lines = File.ReadAllLines("ToDownload.txt");
+            foreach (string line in lines)
+            {
+                if (line != null && line != "")
+                {
+                    ret = true;
+                    DownloadString(baseurl + beatmapsurl + "/" + line, false, true);
+                }
+            }
+            Thread.Sleep(5);
+            try
+            {
+                using (StreamWriter sw = new StreamWriter("ToDownload.txt", false))
+                {
+                    sw.Write("");
+                }
+            }
+            catch { }
+            return ret;
+        }
+
+        private void DownloadString(string path, bool clear = true, bool download = false)
+        {
+            if (clear)
+            {
+                this.songMenu.tableLayoutPanel.Controls.Clear();
+                this.songMenu.tableLayoutPanel.Visible = false;
+                this.songMenu.tableLayoutPanel.Location = new Point(0, 0);
+                this.songMenu.scrollBar.grabber.Location = new Point(0, 0);
+                this.Cursor = Cursors.WaitCursor;
+            }
+
             try
             {
                 using (var client = new WebClient())
                 {
                     client.DownloadStringCompleted += DownloadCompleteCallback;
+                    if (download)
+                    {
+                        downloadMarker.Add(client);
+                    }
                     client.DownloadStringAsync(new Uri(path));
                 }
             }
@@ -75,62 +131,130 @@ namespace NoodleManager
             {
                 byte[] bytes = Encoding.Default.GetBytes(e.Result);
                 string content = Encoding.UTF8.GetString(bytes);
-
-                SongInfo[] items = JsonConvert.DeserializeObject<SongInfo[]>(content);
+                SongInfo[] items = new SongInfo[1];
+                try
+                {
+                    items = JsonConvert.DeserializeObject<SongInfo[]>(content);
+                }
+                catch
+                {
+                    items[0] = JsonConvert.DeserializeObject<SongInfo>(content);
+                }
 
                 foreach (SongInfo item in items)
                 {
-                    SongControl song = new SongControl();
-                    song.downloadPath = baseurl + item.download_url;
-                    song.previewPath = baseurl + item.preview_url;
-                    song.originalFilename = item.filename_original;
-                    song.coverImage.ImageLocation = baseurl + item.cover_url + "?size=150";
-                    song.songName.Text = item.title;
-                    song.mapperName.Text = item.mapper;
-                    song.difficulties = item.difficulties;
-                    song.artist.Text = item.artist;
-                    song.duration.Text = item.duration;
-
-                    foreach (string difficulty in item.difficulties)
+                    if (GlobalVariables.downloadingSongs.Where(i => i.id == item.id).Count() > 0)
                     {
-                        if (difficulty.Equals("Easy"))
+                        Console.WriteLine("already exists");
+                        this.Invoke((MethodInvoker)delegate
                         {
-                            song.Easy.ForeColor = System.Drawing.Color.White;
+                            RemoveDuplicates(item.id);
+                            this.songMenu.tableLayoutPanel.Controls.Add(GlobalVariables.downloadingSongs.Where(i => i.id == item.id).ElementAt(0));
+                        });
+                    }
+                    else
+                    {
+                        SongControl song = new SongControl();
+                        song.downloadPath = baseurl + item.download_url;
+                        song.previewPath = baseurl + item.preview_url;
+                        song.originalFilename = item.filename_original;
+                        song.coverImage.ImageLocation = baseurl + item.cover_url + "?size=150";
+                        song.songName.Text = item.title;
+                        song.mapperName.Text = item.mapper;
+                        song.difficulties = item.difficulties;
+                        song.artist.Text = item.artist;
+                        song.duration.Text = item.duration;
+                        song.id = item.id;
+
+                        foreach (string difficulty in item.difficulties)
+                        {
+                            if (difficulty.Equals("Easy"))
+                            {
+                                song.Easy.ForeColor = System.Drawing.Color.White;
+                            }
+                            else if (difficulty.Equals("Normal"))
+                            {
+                                song.Normal.ForeColor = System.Drawing.Color.White;
+                            }
+                            else if (difficulty.Equals("Hard"))
+                            {
+                                song.Hard.ForeColor = System.Drawing.Color.White;
+                            }
+                            else if (difficulty.Equals("Expert"))
+                            {
+                                song.Expert.ForeColor = System.Drawing.Color.White;
+                            }
+                            else if (difficulty.Equals("Master"))
+                            {
+                                song.Master.ForeColor = System.Drawing.Color.White;
+                            }
                         }
-                        else if (difficulty.Equals("Normal"))
+
+                        this.Invoke((MethodInvoker)delegate
                         {
-                            song.Normal.ForeColor = System.Drawing.Color.White;
+                            RemoveDuplicates(song.id);
+                            this.songMenu.tableLayoutPanel.Controls.Add(song);
+                        });
+
+                        if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                song.Deactivate();
+                            });
                         }
-                        else if (difficulty.Equals("Hard"))
+                        else if (sender != null && downloadMarker.Contains(sender))
                         {
-                            song.Hard.ForeColor = System.Drawing.Color.White;
-                        }
-                        else if (difficulty.Equals("Expert"))
-                        {
-                            song.Expert.ForeColor = System.Drawing.Color.White;
-                        }
-                        else if (difficulty.Equals("Master"))
-                        {
-                            song.Master.ForeColor = System.Drawing.Color.White;
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                song.Download();
+                            });
                         }
                     }
-
-                    if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
-                    {
-                        song.Deactivate();
-                    }
-                    this.songMenu.tableLayoutPanel.Controls.Add(song);
+                }
+                this.Invoke((MethodInvoker)delegate
+                {
                     this.songMenu.tableLayoutPanel.Visible = true;
+                });
+            }
+            this.Invoke((MethodInvoker)delegate
+            {
+                foreach (SongControl c in GlobalVariables.downloadingSongs)
+                {
+                    if (!this.songMenu.tableLayoutPanel.Controls.Contains(c))
+                    {
+                        this.songMenu.tableLayoutPanel.Controls.Add(c);
+                    }
+                }
+                this.Cursor = Cursors.Default;
+            });
+            downloadMarker.Remove((WebClient)sender);
+        }
+
+        private void RemoveDuplicates(int id)
+        {
+            List<SongControl> duplicates = new List<SongControl>();
+            foreach (SongControl c in this.songMenu.tableLayoutPanel.Controls)
+            {
+                if (c.id == id)
+                {
+                    duplicates.Add(c);
                 }
             }
-            this.Cursor = Cursors.Default;
+            if (duplicates.Count > 0)
+            {
+                foreach (SongControl duplicate in duplicates)
+                {
+                    this.songMenu.tableLayoutPanel.Controls.Remove(duplicate);
+                }
+            }
         }
 
         private void FormclosingCallback(object sender, FormClosingEventArgs e)
         {
-            if (GlobalVariables.clients.Count > 0)
+            if (GlobalVariables.downloadingSongs.Count > 0)
             {
-                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.clients.Count.ToString() + " Songs are still downloading");
+                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still downloading");
                 Point tmp = this.Location;
                 tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
                 tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
@@ -139,12 +263,12 @@ namespace NoodleManager
 
                 if (result == DialogResult.OK)
                 {
-                    foreach (KeyValuePair<WebClient, string> c in GlobalVariables.clients)
+                    var dsongs = GlobalVariables.downloadingSongs;
+                    foreach (SongControl c in dsongs)
                     {
-                        if (c.Key != null)
+                        if (c != null)
                         {
-                            c.Key.CancelAsync();
-                            c.Key.Dispose();
+                            c.Delete();
                         }
                     }
                 }
@@ -184,6 +308,7 @@ namespace NoodleManager
                     this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
                     this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
+                    DownloadString(baseurl + beatmapsurl);
                     this.songMenu.Focus();
                 }
             }
@@ -417,6 +542,26 @@ namespace NoodleManager
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
                 this.WindowState = FormWindowState.Minimized;
+            }
+        }
+
+        private void RegisterUriScheme()
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Classes\\" + "synthriderz"))
+            {
+                string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\")) + @"\DownloadHelper.exe";
+                Console.WriteLine(applicationLocation);
+                key.SetValue("", "URL:" + "Synthriderz");
+                key.SetValue("URL Protocol", "");
+                using (var defaultIcon = key.CreateSubKey("DefaultIcon"))
+                {
+                    defaultIcon.SetValue("", applicationLocation + ",1");
+                }
+                using (var commandKey = key.CreateSubKey(@"shell\open\command"))
+                {
+                    commandKey.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
+                }
             }
         }
     }
