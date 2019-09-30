@@ -38,13 +38,13 @@
             this.CloseButton = new System.Windows.Forms.PictureBox();
             this.SettingsButton = new System.Windows.Forms.PictureBox();
             this.searchButton = new System.Windows.Forms.PictureBox();
+            this.labelNM1 = new NoodleManager.LabelNM();
             this.pictureBoxNM3 = new NoodleManager.PictureBoxNM();
             this.pictureBoxNM2 = new NoodleManager.PictureBoxNM();
             this.pictureBoxNM1 = new NoodleManager.PictureBoxNM();
             this.songMenu = new NoodleManager.TableMenu();
             this.modMenu = new NoodleManager.TableMenu();
             this.settingsMenu = new NoodleManager.SettingsMenu();
-            this.labelNM1 = new NoodleManager.LabelNM();
             ((System.ComponentModel.ISupportInitialize)(this.MinimizeButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FullscreenButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
@@ -187,6 +187,16 @@
             this.searchButton.TabStop = false;
             this.searchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
+            // labelNM1
+            // 
+            this.labelNM1.AutoSize = true;
+            this.labelNM1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.labelNM1.Location = new System.Drawing.Point(95, 49);
+            this.labelNM1.Name = "labelNM1";
+            this.labelNM1.Size = new System.Drawing.Size(42, 13);
+            this.labelNM1.TabIndex = 17;
+            this.labelNM1.Text = "V1.2.9*";
+            // 
             // pictureBoxNM3
             // 
             this.pictureBoxNM3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -269,16 +279,6 @@
             this.settingsMenu.TabIndex = 0;
             this.settingsMenu.TabStop = false;
             this.settingsMenu.Visible = false;
-            // 
-            // labelNM1
-            // 
-            this.labelNM1.AutoSize = true;
-            this.labelNM1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.labelNM1.Location = new System.Drawing.Point(95, 49);
-            this.labelNM1.Name = "labelNM1";
-            this.labelNM1.Size = new System.Drawing.Size(38, 13);
-            this.labelNM1.TabIndex = 17;
-            this.labelNM1.Text = "V1.2.8";
             // 
             // Form1
             // 

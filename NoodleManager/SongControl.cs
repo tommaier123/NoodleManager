@@ -263,6 +263,8 @@ namespace NoodleManager
                             {
                                 System.Threading.Thread.Sleep(100);
                             }
+
+                            GlobalVariables.StopPlayback();
                         }
                     }
                 }
@@ -272,10 +274,13 @@ namespace NoodleManager
 
         public void StopPlayback()
         {
-            this.PlayLabel.Text = "PLAY";
-            this.PlayLabel.ForeColor = Color.White;
-            this.PlayButton.Image = global::NoodleManager.Properties.Resources.play_u;
-            playing = false;
+            this.Invoke((MethodInvoker)delegate
+            {
+                this.PlayLabel.Text = "PLAY";
+                this.PlayLabel.ForeColor = Color.White;
+                this.PlayButton.Image = global::NoodleManager.Properties.Resources.play_u;
+                playing = false;
+            });
         }
 
         private void DownloadButton_Click(object sender, EventArgs e)

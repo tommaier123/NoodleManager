@@ -32,6 +32,13 @@ namespace NoodleManager
 
             InitializeComponent();
 
+            Label te = new Label();
+            te.Text = "Mods Comming Soon";
+            te.Size = new Size(600, 300);
+            te.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            te.ForeColor = System.Drawing.Color.White;
+            modMenu.Controls.Add(te);
+
             this.pictureBoxNM1.SendToBack();
 
             this.FormBorderStyle = FormBorderStyle.None;
@@ -75,6 +82,11 @@ namespace NoodleManager
         public bool ReadDownloadFile()
         {
             bool ret = false;
+            if (!File.Exists("ToDownload.txt"))
+            {
+                File.Create("ToDownload.txt");
+                Thread.Sleep(5);
+            }
             string[] lines = File.ReadAllLines("ToDownload.txt");
             foreach (string line in lines)
             {
