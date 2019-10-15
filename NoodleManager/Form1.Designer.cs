@@ -209,9 +209,9 @@
             this.labelNM1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.labelNM1.Location = new System.Drawing.Point(95, 49);
             this.labelNM1.Name = "labelNM1";
-            this.labelNM1.Size = new System.Drawing.Size(42, 13);
+            this.labelNM1.Size = new System.Drawing.Size(38, 13);
             this.labelNM1.TabIndex = 17;
-            this.labelNM1.Text = "V1.2.9*";
+            this.labelNM1.Text = "V1.3.0";
             // 
             // pictureBoxNM3
             // 
