@@ -38,6 +38,7 @@
             this.CloseButton = new System.Windows.Forms.PictureBox();
             this.SettingsButton = new System.Windows.Forms.PictureBox();
             this.searchButton = new System.Windows.Forms.PictureBox();
+            this.displayMode = new System.Windows.Forms.ComboBox();
             this.labelNM1 = new NoodleManager.LabelNM();
             this.pictureBoxNM3 = new NoodleManager.PictureBoxNM();
             this.pictureBoxNM2 = new NoodleManager.PictureBoxNM();
@@ -94,7 +95,7 @@
             this.searchText.Location = new System.Drawing.Point(382, 23);
             this.searchText.MinimumSize = new System.Drawing.Size(0, 20);
             this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(202, 19);
+            this.searchText.Size = new System.Drawing.Size(202, 20);
             this.searchText.TabIndex = 3;
             this.searchText.WordWrap = false;
             // 
@@ -108,7 +109,7 @@
             this.searchMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchMode.ForeColor = System.Drawing.Color.Gray;
             this.searchMode.FormattingEnabled = true;
-            this.searchMode.Location = new System.Drawing.Point(627, 23);
+            this.searchMode.Location = new System.Drawing.Point(627, 24);
             this.searchMode.Name = "searchMode";
             this.searchMode.Size = new System.Drawing.Size(73, 24);
             this.searchMode.TabIndex = 4;
@@ -120,7 +121,7 @@
             this.MinimizeButton.ErrorImage = null;
             this.MinimizeButton.Image = global::NoodleManager.Properties.Resources.minimize;
             this.MinimizeButton.InitialImage = null;
-            this.MinimizeButton.Location = new System.Drawing.Point(742, 5);
+            this.MinimizeButton.Location = new System.Drawing.Point(832, 5);
             this.MinimizeButton.Name = "MinimizeButton";
             this.MinimizeButton.Size = new System.Drawing.Size(20, 20);
             this.MinimizeButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -135,7 +136,7 @@
             this.FullscreenButton.ErrorImage = null;
             this.FullscreenButton.Image = global::NoodleManager.Properties.Resources.fullscreen;
             this.FullscreenButton.InitialImage = null;
-            this.FullscreenButton.Location = new System.Drawing.Point(768, 5);
+            this.FullscreenButton.Location = new System.Drawing.Point(858, 5);
             this.FullscreenButton.Name = "FullscreenButton";
             this.FullscreenButton.Size = new System.Drawing.Size(20, 20);
             this.FullscreenButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -150,7 +151,7 @@
             this.CloseButton.ErrorImage = null;
             this.CloseButton.Image = global::NoodleManager.Properties.Resources.close;
             this.CloseButton.InitialImage = null;
-            this.CloseButton.Location = new System.Drawing.Point(794, 5);
+            this.CloseButton.Location = new System.Drawing.Point(884, 5);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(20, 20);
             this.CloseButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -186,6 +187,21 @@
             this.searchButton.TabIndex = 9;
             this.searchButton.TabStop = false;
             this.searchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            // 
+            // displayMode
+            // 
+            this.displayMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.displayMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.displayMode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.displayMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.displayMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.displayMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.displayMode.ForeColor = System.Drawing.Color.Gray;
+            this.displayMode.FormattingEnabled = true;
+            this.displayMode.Location = new System.Drawing.Point(715, 24);
+            this.displayMode.Name = "displayMode";
+            this.displayMode.Size = new System.Drawing.Size(83, 24);
+            this.displayMode.TabIndex = 18;
             // 
             // labelNM1
             // 
@@ -233,7 +249,7 @@
             this.pictureBoxNM1.InitialImage = null;
             this.pictureBoxNM1.Location = new System.Drawing.Point(0, 70);
             this.pictureBoxNM1.Name = "pictureBoxNM1";
-            this.pictureBoxNM1.Size = new System.Drawing.Size(820, 518);
+            this.pictureBoxNM1.Size = new System.Drawing.Size(920, 518);
             this.pictureBoxNM1.TabIndex = 7;
             this.pictureBoxNM1.TabStop = false;
             // 
@@ -247,7 +263,7 @@
             this.songMenu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.songMenu.Location = new System.Drawing.Point(10, 80);
             this.songMenu.Name = "songMenu";
-            this.songMenu.Size = new System.Drawing.Size(800, 498);
+            this.songMenu.Size = new System.Drawing.Size(890, 498);
             this.songMenu.TabIndex = 0;
             this.songMenu.TabStop = false;
             // 
@@ -260,7 +276,7 @@
             this.modMenu.Enabled = false;
             this.modMenu.Location = new System.Drawing.Point(10, 80);
             this.modMenu.Name = "modMenu";
-            this.modMenu.Size = new System.Drawing.Size(800, 498);
+            this.modMenu.Size = new System.Drawing.Size(900, 498);
             this.modMenu.TabIndex = 0;
             this.modMenu.TabStop = false;
             this.modMenu.Visible = false;
@@ -275,7 +291,7 @@
             this.settingsMenu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.settingsMenu.Location = new System.Drawing.Point(10, 80);
             this.settingsMenu.Name = "settingsMenu";
-            this.settingsMenu.Size = new System.Drawing.Size(800, 498);
+            this.settingsMenu.Size = new System.Drawing.Size(900, 498);
             this.settingsMenu.TabIndex = 0;
             this.settingsMenu.TabStop = false;
             this.settingsMenu.Visible = false;
@@ -285,7 +301,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(820, 588);
+            this.ClientSize = new System.Drawing.Size(910, 588);
+            this.Controls.Add(this.displayMode);
             this.Controls.Add(this.labelNM1);
             this.Controls.Add(this.MinimizeButton);
             this.Controls.Add(this.FullscreenButton);
@@ -305,7 +322,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(820, 70);
+            this.MinimumSize = new System.Drawing.Size(910, 70);
             this.Name = "Form1";
             this.Text = "NoodleManager";
             ((System.ComponentModel.ISupportInitialize)(this.MinimizeButton)).EndInit();
@@ -339,6 +356,7 @@
         private System.Windows.Forms.PictureBox FullscreenButton;
         private System.Windows.Forms.PictureBox MinimizeButton;
         private LabelNM labelNM1;
+        private System.Windows.Forms.ComboBox displayMode;
     }
 }
 

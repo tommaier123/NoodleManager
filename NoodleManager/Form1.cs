@@ -33,7 +33,7 @@ namespace NoodleManager
             InitializeComponent();
 
             Label te = new Label();
-            te.Text = "Mods Comming Soon";
+            te.Text = "Mods Coming Soon";
             te.Size = new Size(600, 300);
             te.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             te.ForeColor = System.Drawing.Color.White;
@@ -45,7 +45,8 @@ namespace NoodleManager
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
-            this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist" };
+            this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist"};
+            this.displayMode.DataSource = new string[] { "All", "Available", "Installed" };
 
             this.FormClosing += FormclosingCallback;
 
@@ -213,14 +214,26 @@ namespace NoodleManager
                             this.Invoke((MethodInvoker)delegate
                             {
                                 song.Deactivate();
+
+                                if (this.displayMode.SelectedIndex == 1)
+                                {
+                                    this.songMenu.tableLayoutPanel.Controls.Remove(song);
+                                }
                             });
                         }
-                        else if (sender != null && downloadMarker.Contains(sender))
+                        else
                         {
-                            this.Invoke((MethodInvoker)delegate
+                            if (this.displayMode.SelectedIndex == 2)
                             {
-                                song.Download();
-                            });
+                                this.songMenu.tableLayoutPanel.Controls.Remove(song);
+                            }
+                            if (sender != null && downloadMarker.Contains(sender))
+                            {
+                                this.Invoke((MethodInvoker)delegate
+                                {
+                                    song.Download();
+                                });
+                            }
                         }
                     }
                 }
