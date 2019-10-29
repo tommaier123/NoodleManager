@@ -41,7 +41,7 @@
             this.displayMode = new System.Windows.Forms.ComboBox();
             this.labelNM1 = new NoodleManager.LabelNM();
             this.pictureBoxNM3 = new NoodleManager.PictureBoxNM();
-            this.pictureBoxNM2 = new NoodleManager.PictureBoxNM();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBoxNM1 = new NoodleManager.PictureBoxNM();
             this.songMenu = new NoodleManager.TableMenu();
             this.modMenu = new NoodleManager.TableMenu();
@@ -52,7 +52,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,7 +95,7 @@
             this.searchText.Location = new System.Drawing.Point(382, 23);
             this.searchText.MinimumSize = new System.Drawing.Size(0, 20);
             this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(202, 20);
+            this.searchText.Size = new System.Drawing.Size(202, 19);
             this.searchText.TabIndex = 3;
             this.searchText.WordWrap = false;
             // 
@@ -211,7 +211,7 @@
             this.labelNM1.Name = "labelNM1";
             this.labelNM1.Size = new System.Drawing.Size(38, 13);
             this.labelNM1.TabIndex = 17;
-            this.labelNM1.Text = "V1.3.0";
+            this.labelNM1.Text = "V1.3.1";
             // 
             // pictureBoxNM3
             // 
@@ -227,17 +227,18 @@
             this.pictureBoxNM3.TabIndex = 10;
             this.pictureBoxNM3.TabStop = false;
             // 
-            // pictureBoxNM2
+            // pictureBox
             // 
-            this.pictureBoxNM2.ErrorImage = null;
-            this.pictureBoxNM2.Image = global::NoodleManager.Properties.Resources.noodleManagerLogo;
-            this.pictureBoxNM2.InitialImage = null;
-            this.pictureBoxNM2.Location = new System.Drawing.Point(8, 10);
-            this.pictureBoxNM2.Name = "pictureBoxNM2";
-            this.pictureBoxNM2.Size = new System.Drawing.Size(105, 45);
-            this.pictureBoxNM2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxNM2.TabIndex = 8;
-            this.pictureBoxNM2.TabStop = false;
+            this.pictureBox.ErrorImage = null;
+            this.pictureBox.Image = global::NoodleManager.Properties.Resources.noodleManagerLogo;
+            this.pictureBox.InitialImage = null;
+            this.pictureBox.Location = new System.Drawing.Point(8, 10);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(105, 45);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox.TabIndex = 8;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
             // 
             // pictureBoxNM1
             // 
@@ -310,7 +311,7 @@
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.pictureBoxNM3);
             this.Controls.Add(this.searchButton);
-            this.Controls.Add(this.pictureBoxNM2);
+            this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.pictureBoxNM1);
             this.Controls.Add(this.searchMode);
             this.Controls.Add(this.searchText);
@@ -331,7 +332,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -348,7 +349,7 @@
         private System.Windows.Forms.TextBox searchText;
         private System.Windows.Forms.ComboBox searchMode;
         private PictureBoxNM pictureBoxNM1;
-        private PictureBoxNM pictureBoxNM2;
+        private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.PictureBox searchButton;
         private PictureBoxNM pictureBoxNM3;
         private System.Windows.Forms.PictureBox SettingsButton;

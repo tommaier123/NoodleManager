@@ -36,5 +36,34 @@ namespace NoodleManager
         {
             Process.Start("https://synthriderz.com/donate");
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(this.textBox1.Text + @"\CustomSongs\"))
+            {
+                Process getProcess = new Process();
+                getProcess.StartInfo.UseShellExecute = false;
+                getProcess.StartInfo.RedirectStandardOutput = true;
+                getProcess.StartInfo.FileName = "get.bat";
+                getProcess.Start();
+                string output = getProcess.StandardOutput.ReadToEnd();
+                getProcess.WaitForExit();
+
+                foreach (string file in Directory.GetFiles(this.textBox1.Text + @"\CustomSongs\"))
+                {
+                    string f = file.Substring(file.LastIndexOf(@"\")+1);
+                    if (!output.Contains(f))
+                    {
+                        Process pushProcess = new Process();
+                        pushProcess.StartInfo.UseShellExecute = false;
+                        pushProcess.StartInfo.RedirectStandardOutput = false;
+                        pushProcess.StartInfo.FileName = "push.bat";
+                        pushProcess.StartInfo.Arguments = "\"" + this.textBox1.Text + @"\CustomSongs\" + f + "\"";
+                        pushProcess.Start();
+                        pushProcess.WaitForExit();
+                    }
+                }
+            }
+        }
     }
 }

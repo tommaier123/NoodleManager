@@ -190,4 +190,11 @@
     <None Include="Resources\delete_s1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)Dependencies\" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -588,6 +589,11 @@ namespace NoodleManager
                     commandKey.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
                 }
             }
+        }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://synthriderz.com");
         }
     }
 }
