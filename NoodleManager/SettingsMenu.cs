@@ -51,7 +51,7 @@ namespace NoodleManager
 
                 foreach (string file in Directory.GetFiles(this.textBox1.Text + @"\CustomSongs\"))
                 {
-                    string f = file.Substring(file.LastIndexOf(@"\")+1);
+                    string f = file.Substring(file.LastIndexOf(@"\") + 1);
                     if (!output.Contains(f))
                     {
                         Process pushProcess = new Process();
@@ -63,6 +63,15 @@ namespace NoodleManager
                         pushProcess.WaitForExit();
                     }
                 }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (this.textBox1.Text == "" || !Directory.Exists(this.textBox1.Text + @"\CustomSongs\"))
+            {
+                Directory.CreateDirectory("CustomSongs");
+                this.textBox1.Text = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             }
         }
     }
