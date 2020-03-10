@@ -46,7 +46,7 @@ namespace NoodleManager
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
-            this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist"};
+            this.searchMode.DataSource = new string[] { "All", "Title", "Mapper", "Artist" };
             this.displayMode.DataSource = new string[] { "All", "Available", "Installed" };
 
             this.FormClosing += FormclosingCallback;
@@ -204,11 +204,21 @@ namespace NoodleManager
                             }
                         }
 
-                        this.Invoke((MethodInvoker)delegate
+                        if (this.songMenu.tableLayoutPanel.Controls.Count < 180)
+                        {
+                            this.Invoke((MethodInvoker)delegate
                         {
                             RemoveDuplicates(song.id);
+
                             this.songMenu.tableLayoutPanel.Controls.Add(song);
+
+
                         });
+                        }
+                        else
+                        {
+                            break;
+                        }
 
                         if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
                         {
@@ -247,7 +257,7 @@ namespace NoodleManager
             {
                 foreach (SongControl c in GlobalVariables.downloadingSongs)
                 {
-                    if (!this.songMenu.tableLayoutPanel.Controls.Contains(c))
+                    if (!this.songMenu.tableLayoutPanel.Controls.Contains(c) && this.songMenu.tableLayoutPanel.Controls.Count < 180)
                     {
                         this.songMenu.tableLayoutPanel.Controls.Add(c);
                     }
@@ -272,6 +282,17 @@ namespace NoodleManager
                 foreach (SongControl duplicate in duplicates)
                 {
                     this.songMenu.tableLayoutPanel.Controls.Remove(duplicate);
+                }
+            }
+        }
+
+        private void DownloadAll()
+        {
+            foreach (SongControl c in this.songMenu.tableLayoutPanel.Controls)
+            {
+                if (c.active)
+                {
+                    c.Download();
                 }
             }
         }
@@ -594,6 +615,26 @@ namespace NoodleManager
         private void pictureBox_Click(object sender, EventArgs e)
         {
             Process.Start("https://synthriderz.com");
+        }
+
+        private void displayMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void searchMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Search();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            DownloadAll();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            DownloadAll();
         }
     }
 }

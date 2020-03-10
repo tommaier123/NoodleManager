@@ -74,5 +74,15 @@ namespace NoodleManager
                 this.textBox1.Text = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://discord.gg/EvsGyh9");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://synthriderz.com/");
+        }
     }
 }

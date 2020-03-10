@@ -1,4 +1,6 @@
-﻿namespace NoodleManager
+﻿using System;
+
+namespace NoodleManager
 {
     partial class Form1
     {
@@ -39,9 +41,11 @@
             this.SettingsButton = new System.Windows.Forms.PictureBox();
             this.searchButton = new System.Windows.Forms.PictureBox();
             this.displayMode = new System.Windows.Forms.ComboBox();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.labelNM1 = new NoodleManager.LabelNM();
             this.pictureBoxNM3 = new NoodleManager.PictureBoxNM();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBoxNM1 = new NoodleManager.PictureBoxNM();
             this.songMenu = new NoodleManager.TableMenu();
             this.modMenu = new NoodleManager.TableMenu();
@@ -51,8 +55,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,7 +99,7 @@
             this.searchText.Location = new System.Drawing.Point(382, 23);
             this.searchText.MinimumSize = new System.Drawing.Size(0, 20);
             this.searchText.Name = "searchText";
-            this.searchText.Size = new System.Drawing.Size(202, 19);
+            this.searchText.Size = new System.Drawing.Size(172, 19);
             this.searchText.TabIndex = 3;
             this.searchText.WordWrap = false;
             // 
@@ -109,10 +113,11 @@
             this.searchMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchMode.ForeColor = System.Drawing.Color.Gray;
             this.searchMode.FormattingEnabled = true;
-            this.searchMode.Location = new System.Drawing.Point(627, 24);
+            this.searchMode.Location = new System.Drawing.Point(597, 24);
             this.searchMode.Name = "searchMode";
             this.searchMode.Size = new System.Drawing.Size(73, 24);
             this.searchMode.TabIndex = 4;
+            this.searchMode.SelectedIndexChanged += new System.EventHandler(this.searchMode_SelectedIndexChanged);
             // 
             // MinimizeButton
             // 
@@ -180,7 +185,7 @@
             this.searchButton.ErrorImage = null;
             this.searchButton.Image = global::NoodleManager.Properties.Resources.search;
             this.searchButton.InitialImage = null;
-            this.searchButton.Location = new System.Drawing.Point(590, 23);
+            this.searchButton.Location = new System.Drawing.Point(560, 23);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(24, 24);
             this.searchButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -198,34 +203,11 @@
             this.displayMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.displayMode.ForeColor = System.Drawing.Color.Gray;
             this.displayMode.FormattingEnabled = true;
-            this.displayMode.Location = new System.Drawing.Point(715, 24);
+            this.displayMode.Location = new System.Drawing.Point(685, 24);
             this.displayMode.Name = "displayMode";
             this.displayMode.Size = new System.Drawing.Size(83, 24);
             this.displayMode.TabIndex = 18;
-            // 
-            // labelNM1
-            // 
-            this.labelNM1.AutoSize = true;
-            this.labelNM1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.labelNM1.Location = new System.Drawing.Point(95, 49);
-            this.labelNM1.Name = "labelNM1";
-            this.labelNM1.Size = new System.Drawing.Size(38, 13);
-            this.labelNM1.TabIndex = 17;
-            this.labelNM1.Text = "V1.3.2";
-            // 
-            // pictureBoxNM3
-            // 
-            this.pictureBoxNM3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxNM3.ErrorImage = null;
-            this.pictureBoxNM3.Image = global::NoodleManager.Properties.Resources.searchUnderline;
-            this.pictureBoxNM3.InitialImage = null;
-            this.pictureBoxNM3.Location = new System.Drawing.Point(382, 45);
-            this.pictureBoxNM3.Name = "pictureBoxNM3";
-            this.pictureBoxNM3.Size = new System.Drawing.Size(208, 3);
-            this.pictureBoxNM3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxNM3.TabIndex = 10;
-            this.pictureBoxNM3.TabStop = false;
+            this.displayMode.SelectedIndexChanged += new System.EventHandler(this.displayMode_SelectedIndexChanged);
             // 
             // pictureBox
             // 
@@ -239,6 +221,58 @@
             this.pictureBox.TabIndex = 8;
             this.pictureBox.TabStop = false;
             this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+            this.label1.Location = new System.Drawing.Point(774, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 20);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "GET";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
+            this.label2.Location = new System.Drawing.Point(778, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 20);
+            this.label2.TabIndex = 20;
+            this.label2.Text = "ALL";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // labelNM1
+            // 
+            this.labelNM1.AutoSize = true;
+            this.labelNM1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.labelNM1.Location = new System.Drawing.Point(95, 49);
+            this.labelNM1.Name = "labelNM1";
+            this.labelNM1.Size = new System.Drawing.Size(38, 13);
+            this.labelNM1.TabIndex = 17;
+            this.labelNM1.Text = "V1.3.3";
+            // 
+            // pictureBoxNM3
+            // 
+            this.pictureBoxNM3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxNM3.ErrorImage = null;
+            this.pictureBoxNM3.Image = global::NoodleManager.Properties.Resources.searchUnderline;
+            this.pictureBoxNM3.InitialImage = null;
+            this.pictureBoxNM3.Location = new System.Drawing.Point(382, 45);
+            this.pictureBoxNM3.Name = "pictureBoxNM3";
+            this.pictureBoxNM3.Size = new System.Drawing.Size(178, 3);
+            this.pictureBoxNM3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxNM3.TabIndex = 10;
+            this.pictureBoxNM3.TabStop = false;
             // 
             // pictureBoxNM1
             // 
@@ -303,6 +337,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(910, 588);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.displayMode);
             this.Controls.Add(this.labelNM1);
             this.Controls.Add(this.MinimizeButton);
@@ -331,8 +367,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNM1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -358,6 +394,8 @@
         private System.Windows.Forms.PictureBox MinimizeButton;
         private LabelNM labelNM1;
         private System.Windows.Forms.ComboBox displayMode;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
