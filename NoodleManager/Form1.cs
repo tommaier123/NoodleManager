@@ -21,6 +21,7 @@ namespace NoodleManager
         private const int cGrip = 10;      // Grip size
         private const int cCaption = 70;   // Caption bar height;
         private List<WebClient> downloadMarker = new List<WebClient>();
+        private List<WebClient> downloadAllMarker = new List<WebClient>();
 
         public const string baseurl = "https://synthriderz.com";
         public const string beatmapsurl = "/api/beatmaps";
@@ -215,10 +216,6 @@ namespace NoodleManager
 
                         });
                         }
-                        else
-                        {
-                            break;
-                        }
 
                         if (File.Exists(Properties.Settings.Default.path + @"\CustomSongs\" + item.filename_original))
                         {
@@ -288,13 +285,29 @@ namespace NoodleManager
 
         private void DownloadAll()
         {
-            foreach (SongControl c in this.songMenu.tableLayoutPanel.Controls)
+            this.songMenu.tableLayoutPanel.Controls.Clear();
+            this.songMenu.tableLayoutPanel.Visible = false;
+            this.songMenu.tableLayoutPanel.Location = new Point(0, 0);
+            this.songMenu.scrollBar.grabber.Location = new Point(0, 0);
+            this.Cursor = Cursors.WaitCursor;
+
+            try
             {
-                if (c.active)
+                using (var client = new WebClient())
                 {
-                    c.Download();
+                    client.DownloadStringCompleted += DownloadCompleteCallback;
+                    
+                    downloadMarker.Add(client);
+                    
+                    client.DownloadStringAsync(new Uri(baseurl + beatmapsurl));
                 }
             }
+            catch
+            {
+
+            }
+
+
         }
 
         private void FormclosingCallback(object sender, FormClosingEventArgs e)

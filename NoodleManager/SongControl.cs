@@ -142,7 +142,7 @@ namespace NoodleManager
         {
             this.progressBar1.Visible = false;
             GlobalVariables.downloadingSongs.Remove(this);
-            
+
 
             if (e.Cancelled || e.Error != null)
             {
