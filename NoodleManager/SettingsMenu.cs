@@ -58,7 +58,7 @@ namespace NoodleManager
                         pushProcess.StartInfo.UseShellExecute = false;
                         pushProcess.StartInfo.RedirectStandardOutput = false;
                         pushProcess.StartInfo.FileName = "push.bat";
-                        pushProcess.StartInfo.Arguments = "\"" + this.textBox1.Text + @"\CustomSongs\" + f + "\"";
+                        pushProcess.StartInfo.Arguments = "\"" + this.textBox1.Text + @"\CustomSongs\" + f + "\"" + " " + @"/CustomSongs";
                         pushProcess.Start();
                         pushProcess.WaitForExit();
                     }
@@ -83,6 +83,20 @@ namespace NoodleManager
         private void button6_Click(object sender, EventArgs e)
         {
             Process.Start("https://synthriderz.com/");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(this.textBox1.Text + @"\favorites.bin"))
+            {
+                Process pushProcess = new Process();
+                pushProcess.StartInfo.UseShellExecute = false;
+                pushProcess.StartInfo.RedirectStandardOutput = false;
+                pushProcess.StartInfo.FileName = "push.bat";
+                pushProcess.StartInfo.Arguments = "\"" + this.textBox1.Text + @"\favorites.bin" + "\"";
+                pushProcess.Start();
+                pushProcess.WaitForExit();
+            }
         }
     }
 }

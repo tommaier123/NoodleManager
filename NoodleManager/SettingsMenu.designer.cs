@@ -41,6 +41,7 @@ namespace NoodleManager
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -170,11 +171,24 @@ namespace NoodleManager
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button7
+            // 
+            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button7.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button7.Location = new System.Drawing.Point(220, 178);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(140, 23);
+            this.button7.TabIndex = 10;
+            this.button7.Text = "Send Favorites to Quest";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // SettingsMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox3);
@@ -206,5 +220,6 @@ namespace NoodleManager
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
     }
 }
