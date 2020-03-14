@@ -22,6 +22,7 @@ namespace NoodleManager
         private const int cCaption = 70;   // Caption bar height;
         private List<WebClient> downloadMarker = new List<WebClient>();
         private List<WebClient> downloadAllMarker = new List<WebClient>();
+        private int available = 0;
 
         public const string baseurl = "https://synthriderz.com";
         public const string beatmapsurl = "/api/beatmaps";
@@ -144,6 +145,7 @@ namespace NoodleManager
         {
             if (!e.Cancelled && e.Error == null && e.Result != null && e.Result != "")
             {
+                available = 0;
                 byte[] bytes = Encoding.Default.GetBytes(e.Result);
                 string content = Encoding.UTF8.GetString(bytes);
                 SongInfo[] items = new SongInfo[1];
@@ -212,8 +214,6 @@ namespace NoodleManager
                             RemoveDuplicates(song.id);
 
                             this.songMenu.tableLayoutPanel.Controls.Add(song);
-
-
                         });
                         }
 
@@ -231,6 +231,7 @@ namespace NoodleManager
                         }
                         else
                         {
+                            available++;
                             if (this.displayMode.SelectedIndex == 2)
                             {
                                 this.songMenu.tableLayoutPanel.Controls.Remove(song);
@@ -283,7 +284,7 @@ namespace NoodleManager
             }
         }
 
-        private void DownloadAll()
+        private void GetAll(bool download = true)
         {
             this.songMenu.tableLayoutPanel.Controls.Clear();
             this.songMenu.tableLayoutPanel.Visible = false;
@@ -296,9 +297,11 @@ namespace NoodleManager
                 using (var client = new WebClient())
                 {
                     client.DownloadStringCompleted += DownloadCompleteCallback;
-                    
-                    downloadMarker.Add(client);
-                    
+
+                    if (download)
+                    {
+                        downloadMarker.Add(client);
+                    }
                     client.DownloadStringAsync(new Uri(baseurl + beatmapsurl));
                 }
             }
@@ -306,15 +309,13 @@ namespace NoodleManager
             {
 
             }
-
-
         }
 
         private void FormclosingCallback(object sender, FormClosingEventArgs e)
         {
             if (GlobalVariables.downloadingSongs.Count > 0)
             {
-                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still downloading");
+                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still downloading"+Environment.NewLine+"Stop Download?");
                 Point tmp = this.Location;
                 tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
                 tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
@@ -648,6 +649,21 @@ namespace NoodleManager
         private void label2_Click(object sender, EventArgs e)
         {
             DownloadAll();
+        }
+
+        private void DownloadAll()
+        {
+            ErrorDialog errorDialog = new ErrorDialog("Do you want to download " + available.ToString() + " Songs?");
+            Point tmp = this.Location;
+            tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
+            tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
+            errorDialog.Location = tmp;
+            DialogResult result = errorDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                GetAll(true);
+            }
         }
     }
 }

@@ -33,13 +33,12 @@ namespace NoodleManager
             this.cancel = new System.Windows.Forms.Button();
             this.ok = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cancel
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancel.Location = new System.Drawing.Point(94, 75);
+            this.cancel.Location = new System.Drawing.Point(167, 75);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
             this.cancel.TabIndex = 0;
@@ -50,7 +49,7 @@ namespace NoodleManager
             // ok
             // 
             this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ok.Location = new System.Drawing.Point(4, 75);
+            this.ok.Location = new System.Drawing.Point(77, 75);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(75, 23);
             this.ok.TabIndex = 1;
@@ -67,22 +66,12 @@ namespace NoodleManager
             this.label1.TabIndex = 2;
             this.label1.Text = "  Songs are still downloading!";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Stop Download?";
-            // 
             // ErrorDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
-            this.ClientSize = new System.Drawing.Size(173, 101);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(246, 101);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.cancel);
@@ -90,7 +79,7 @@ namespace NoodleManager
             this.Name = "ErrorDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Error";
+            this.Text = "Warning";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,6 +90,5 @@ namespace NoodleManager
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button ok;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
     }
 }
