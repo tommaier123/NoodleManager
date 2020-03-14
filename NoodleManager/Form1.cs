@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,8 +23,8 @@ namespace NoodleManager
         private const int cGrip = 10;      // Grip size
         private const int cCaption = 70;   // Caption bar height;
         private List<WebClient> downloadMarker = new List<WebClient>();
-        private List<WebClient> downloadAllMarker = new List<WebClient>();
         private int available = 0;
+        private bool update = false;
 
         public const string baseurl = "https://synthriderz.com";
         public const string beatmapsurl = "/api/beatmaps";
@@ -31,9 +33,60 @@ namespace NoodleManager
 
         public Form1()
         {
+            try
+            {
+                Octokit.GitHubClient github = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("NoodleManager"));
+                Octokit.Release latest = github.Repository.Release.GetLatest("tommaier123", "NoodleManager").Result;
+
+                if (GlobalVariables.TagName != latest.TagName)
+                {
+                    string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                    applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+                    string dirLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+
+                    if (File.Exists(dirLocation + @"\NoodleManagerDownload.zip"))
+                    {
+                        File.Delete(dirLocation + @"\NoodleManagerDownload.zip");
+                    }
+
+                    if (Directory.Exists(dirLocation + @"\NoodleManagerUpdate"))
+                    {
+                        Directory.Delete(dirLocation + @"\NoodleManagerUpdate", true);
+                    }
+
+                    if (Directory.Exists(dirLocation + @"\NoodleManagerDownload"))
+                    {
+                        Directory.Delete(dirLocation + @"\NoodleManagerDownload", true);
+                    }
+
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("https://github.com/tommaier123/NoodleManager/releases/latest/download/NoodleManager.zip", dirLocation + @"\NoodleManagerDownload.zip");
+                    }
+
+                    ZipFile.ExtractToDirectory(dirLocation + @"\NoodleManagerDownload.zip", dirLocation + @"\NoodleManagerDownload");
+                    File.Delete(dirLocation + @"\NoodleManagerDownload.zip");
+                    Directory.Move(dirLocation + @"\NoodleManagerDownload\NoodleManagerRelease", dirLocation + @"\NoodleManagerUpdate");
+                    Directory.Delete(dirLocation + @"\NoodleManagerDownload", true);
+
+                    if (Directory.Exists(applicationLocation + @"\CustomSongs"))
+                    {
+                        Directory.Move(applicationLocation + @"\CustomSongs", dirLocation + @"\NoodleManagerUpdate\CustomSongs");
+                    }
+                    update = true;
+                    this.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
             RegisterUriScheme();
 
             InitializeComponent();
+
+            this.labelNM1.Text = GlobalVariables.TagName;
 
             Label te = new Label();
             te.Text = "Mods Coming Soon";
@@ -315,7 +368,7 @@ namespace NoodleManager
         {
             if (GlobalVariables.downloadingSongs.Count > 0)
             {
-                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still downloading"+Environment.NewLine+"Stop Download?");
+                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still downloading" + Environment.NewLine + "Stop Download?");
                 Point tmp = this.Location;
                 tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
                 tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
@@ -331,6 +384,21 @@ namespace NoodleManager
                         {
                             c.Delete();
                         }
+                    }
+                    if (update)
+                    {
+                        string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                        applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+                        string name = applicationLocation.Substring(applicationLocation.LastIndexOf(@"\") + 1);
+                        string dirLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+
+                        Process pushProcess = new Process();
+                        pushProcess.StartInfo.UseShellExecute = false;
+                        pushProcess.StartInfo.RedirectStandardOutput = false;
+                        pushProcess.StartInfo.FileName = "rename.bat";
+                        pushProcess.StartInfo.Arguments = "\"" + applicationLocation + "\"" + " " + "\"" + dirLocation + @"\NoodleManagerUpdate" + "\"" + " " + "\"" + name + "\"";
+                        pushProcess.Start();
+                        pushProcess.WaitForExit();
                     }
                 }
                 else

@@ -263,8 +263,10 @@ namespace NoodleManager
                             {
                                 System.Threading.Thread.Sleep(100);
                             }
-
-                            GlobalVariables.StopPlayback();
+                            if (!playing && waveOut.PlaybackState != PlaybackState.Playing)
+                            {
+                                GlobalVariables.StopPlayback();
+                            }
                         }
                     }
                 }
