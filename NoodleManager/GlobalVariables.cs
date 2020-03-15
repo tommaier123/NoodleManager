@@ -16,7 +16,7 @@ namespace NoodleManager
 
         public static SongControl PlayingSongs;
 
-        public static string TagName = "V1.3.3";
+        public static string TagName = "V1.3.4";
 
         public static void PlayNew(SongControl s)
         {
