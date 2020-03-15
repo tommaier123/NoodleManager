@@ -331,6 +331,7 @@ namespace NoodleManager
 
         public void Delete()
         {
+            GlobalVariables.Available++;
             if (client != null)
             {
                 this.client.CancelAsync();

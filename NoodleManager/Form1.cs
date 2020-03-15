@@ -23,7 +23,6 @@ namespace NoodleManager
         private const int cGrip = 10;      // Grip size
         private const int cCaption = 70;   // Caption bar height;
         private List<WebClient> downloadMarker = new List<WebClient>();
-        private int available = 0;
         private bool update = false;
 
         public const string baseurl = "https://synthriderz.com";
@@ -33,8 +32,7 @@ namespace NoodleManager
 
         public Form1()
         {
-#if DEBUG
-#else
+
             try
             {
                 Octokit.GitHubClient github = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("NoodleManager"));
@@ -42,16 +40,15 @@ namespace NoodleManager
 
                 if (GlobalVariables.TagName != latest.TagName)
                 {
-                    ErrorDialog errorDialog = new ErrorDialog("New Update to " + latest.TagName + " available" + Environment.NewLine + "Do you want to Download it?");
-                    Point tmp = this.Location;
-                    tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
-                    tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
-                    errorDialog.Location = tmp;
+                    ErrorDialog errorDialog = new ErrorDialog("New Update to " + latest.TagName + " available:" + Environment.NewLine + Environment.NewLine + latest.Body + Environment.NewLine + Environment.NewLine + "Do you want to Download it?");
                     DialogResult result = errorDialog.ShowDialog();
 
                     if (result == DialogResult.OK)
                     {
+#if DEBUG
+#else
                         UpdateFiles();
+#endif
                     }
                 }
             }
@@ -60,6 +57,8 @@ namespace NoodleManager
                 Console.WriteLine(e.ToString());
             }
 
+#if DEBUG
+#else
             RegisterUriScheme();
 #endif
 
@@ -241,7 +240,7 @@ namespace NoodleManager
         {
             if (!e.Cancelled && e.Error == null && e.Result != null && e.Result != "")
             {
-                available = 0;
+                GlobalVariables.Available = 0;
                 byte[] bytes = Encoding.Default.GetBytes(e.Result);
                 string content = Encoding.UTF8.GetString(bytes);
                 SongInfo[] items = new SongInfo[1];
@@ -327,7 +326,7 @@ namespace NoodleManager
                         }
                         else
                         {
-                            available++;
+                            GlobalVariables.Available++;
                             if (this.displayMode.SelectedIndex == 2)
                             {
                                 this.songMenu.tableLayoutPanel.Controls.Remove(song);
@@ -388,7 +387,7 @@ namespace NoodleManager
             this.songMenu.scrollBar.grabber.Location = new Point(0, 0);
             this.Cursor = Cursors.WaitCursor;
 
-            try 
+            try
             {
                 using (var client = new WebClient())
                 {
@@ -400,7 +399,7 @@ namespace NoodleManager
                     }
                     client.DownloadStringAsync(new Uri(baseurl + beatmapsurl));
                 }
-            } 
+            }
             catch
             {
 
@@ -412,11 +411,6 @@ namespace NoodleManager
             if (GlobalVariables.downloadingSongs.Count > 0)
             {
                 ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still Downloading" + Environment.NewLine + "Stop Download?");
-                Point tmp = this.Location;
-                tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
-                tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
-                
-                errorDialog.Location = tmp;
                 DialogResult result = errorDialog.ShowDialog();
 
                 if (result == DialogResult.OK)
@@ -434,14 +428,14 @@ namespace NoodleManager
                         Rename();
                     }
                 }
-                else 
+                else
                 {
                     GlobalVariables.StopPlayback();
                     e.Cancel = true;
                 }
-            } 
+            }
             else
-            { 
+            {
                 if (update)
                 {
                     Rename();
@@ -777,11 +771,7 @@ namespace NoodleManager
 
         private void DownloadAll()
         {
-            ErrorDialog errorDialog = new ErrorDialog("Do you want to Download " + available.ToString() + " Songs?");
-            Point tmp = this.Location;
-            tmp.X += (this.Size.Width / 2) - (errorDialog.Size.Width / 2);
-            tmp.Y += (this.Size.Height / 2) - (errorDialog.Size.Height / 2);
-            errorDialog.Location = tmp;
+            ErrorDialog errorDialog = new ErrorDialog("Do you want to Download " + GlobalVariables.Available.ToString() + " Songs?");
             DialogResult result = errorDialog.ShowDialog();
 
             if (result == DialogResult.OK)
