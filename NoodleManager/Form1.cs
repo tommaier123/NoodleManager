@@ -410,7 +410,7 @@ namespace NoodleManager
         {
             if (GlobalVariables.downloadingSongs.Count > 0)
             {
-                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still Downloading" + Environment.NewLine + "Stop Download?");
+                ErrorDialog errorDialog = new ErrorDialog(GlobalVariables.downloadingSongs.Count.ToString() + " Songs are still Downloading." + Environment.NewLine + "Stop the Download?");
                 DialogResult result = errorDialog.ShowDialog();
 
                 if (result == DialogResult.OK)
@@ -771,12 +771,20 @@ namespace NoodleManager
 
         private void DownloadAll()
         {
-            ErrorDialog errorDialog = new ErrorDialog("Do you want to Download " + GlobalVariables.Available.ToString() + " Songs?");
-            DialogResult result = errorDialog.ShowDialog();
-
-            if (result == DialogResult.OK)
+            if (GlobalVariables.Available > 0)
             {
-                GetAll(true);
+                ErrorDialog errorDialog = new ErrorDialog("Do you want to Download " + GlobalVariables.Available.ToString() + " new Songs?");
+                DialogResult result = errorDialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    GetAll(true);
+                }
+            }
+            else
+            {
+                ErrorDialog errorDialog = new ErrorDialog("No new Songs available");
+                DialogResult result = errorDialog.ShowDialog();
             }
         }
     }

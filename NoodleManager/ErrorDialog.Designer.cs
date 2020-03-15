@@ -38,29 +38,34 @@ namespace NoodleManager
             // cancel
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancel.Location = new System.Drawing.Point(102, 48);
+            this.cancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.cancel.ForeColor = System.Drawing.SystemColors.Control;
+            this.cancel.Location = new System.Drawing.Point(130, 40);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 23);
             this.cancel.TabIndex = 0;
             this.cancel.Text = "Cancel";
-            this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.UseVisualStyleBackColor = false;
             this.cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // ok
             // 
             this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ok.Location = new System.Drawing.Point(12, 48);
+            this.ok.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.ok.ForeColor = System.Drawing.SystemColors.Control;
+            this.ok.Location = new System.Drawing.Point(40, 40);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(75, 23);
             this.ok.TabIndex = 1;
             this.ok.Text = "OK";
-            this.ok.UseVisualStyleBackColor = true;
+            this.ok.UseVisualStyleBackColor = false;
             this.ok.Click += new System.EventHandler(this.OK_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.ForeColor = System.Drawing.SystemColors.Control;
+            this.label1.Location = new System.Drawing.Point(15, 10);
             this.label1.Margin = new System.Windows.Forms.Padding(30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 13);
@@ -75,11 +80,13 @@ namespace NoodleManager
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
-            this.ClientSize = new System.Drawing.Size(181, 74);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.ClientSize = new System.Drawing.Size(209, 66);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimumSize = new System.Drawing.Size(225, 105);
             this.Name = "ErrorDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
