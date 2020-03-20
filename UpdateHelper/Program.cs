@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UpdateHelper
@@ -15,20 +16,26 @@ namespace UpdateHelper
         {
             try
             {
-                if (args.Length == 1)
-                {
-                    string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-                    applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
-                    string dirLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+                string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                applicationLocation = Path.GetDirectoryName(applicationLocation);
+                string dirLocation = Path.GetDirectoryName(applicationLocation);
 
-                    Directory.Delete(dirLocation+@"\"+args[0]);
-                    Directory.Move(applicationLocation, dirLocation + @"\" + args[0]);
+                foreach (string file in Directory.GetFiles(dirLocation + @"\NoodleManagerUpdate"))
+                {
+                    if (Path.GetFileName(file) != "UpdateHelper.exe")
+                    {
+                        File.Copy(file, Path.Combine(applicationLocation, Path.GetFileName(file)), true);
+                    }
                 }
 
+                Directory.Delete(dirLocation + @"\NoodleManagerUpdate", true);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
         }
     }

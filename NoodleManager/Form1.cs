@@ -54,7 +54,10 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
 
 #if DEBUG
@@ -87,7 +90,7 @@ namespace NoodleManager
 
             this.searchText.KeyDown += new KeyEventHandler(this.SearchKeyDownCallback);
 
-            if (!Directory.Exists(Properties.Settings.Default.path + @"\CustomSongs\"))
+            if (!Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
             {
                 ShowSettings();
             }
@@ -114,37 +117,38 @@ namespace NoodleManager
             try
             {
                 string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-                applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
-                string dirLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+                applicationLocation = Path.GetDirectoryName(applicationLocation);
+                string dirLocation = Path.GetDirectoryName(applicationLocation);
 
-                if (File.Exists(dirLocation + @"\NoodleManagerDownload.zip"))
+                if (File.Exists(Path.Combine(dirLocation, "NoodleManagerDownload.zip")))
                 {
-                    File.Delete(dirLocation + @"\NoodleManagerDownload.zip");
+                    File.Delete(Path.Combine(dirLocation, "NoodleManagerDownload.zip"));
                 }
 
-                if (Directory.Exists(dirLocation + @"\NoodleManagerUpdate"))
+                if (Directory.Exists(Path.Combine(dirLocation, "NoodleManagerUpdate")))
                 {
-                    Directory.Delete(dirLocation + @"\NoodleManagerUpdate", true);
+                    Directory.Delete(Path.Combine(dirLocation, "NoodleManagerUpdate"), true);
                 }
 
-                if (Directory.Exists(dirLocation + @"\NoodleManagerDownload"))
+                if (Directory.Exists(Path.Combine(dirLocation, "NoodleManagerDownload")))
                 {
-                    Directory.Delete(dirLocation + @"\NoodleManagerDownload", true);
+                    Directory.Delete(Path.Combine(dirLocation, "NoodleManagerDownload"), true);
                 }
 
                 using (var client = new WebClient())
                 {
-                    client.DownloadFile("https://github.com/tommaier123/NoodleManager/releases/latest/download/NoodleManager.zip", dirLocation + @"\NoodleManagerDownload.zip");
+                    client.DownloadFile("https://github.com/tommaier123/NoodleManager/releases/latest/download/NoodleManager.zip", Path.Combine(dirLocation, "NoodleManagerDownload.zip"));
                 }
 
-                ZipFile.ExtractToDirectory(dirLocation + @"\NoodleManagerDownload.zip", dirLocation + @"\NoodleManagerDownload");
-                File.Delete(dirLocation + @"\NoodleManagerDownload.zip");
-                Directory.Move(dirLocation + @"\NoodleManagerDownload\NoodleManagerRelease", dirLocation + @"\NoodleManagerUpdate");
-                Directory.Delete(dirLocation + @"\NoodleManagerDownload", true);
+                ZipFile.ExtractToDirectory(Path.Combine(dirLocation, "NoodleManagerDownload.zip"), Path.Combine(dirLocation, "NoodleManagerDownload"));
+                File.Delete(Path.Combine(dirLocation, "NoodleManagerDownload.zip"));
+                Directory.Move(Path.Combine(dirLocation, @"NoodleManagerDownload\NoodleManagerRelease"), Path.Combine(dirLocation, "NoodleManagerUpdate"));
+                Directory.Delete(Path.Combine(dirLocation, "NoodleManagerDownload"), true);
 
-                if (Directory.Exists(applicationLocation + @"\CustomSongs"))
+
+                if (File.Exists(Path.Combine(dirLocation, @"NoodleManagerUpdate\UpdateHelper.exe")))
                 {
-                    Directory.Move(applicationLocation + @"\CustomSongs", dirLocation + @"\NoodleManagerUpdate\CustomSongs");
+                    //File.Copy(Path.Combine(dirLocation, @"NoodleManagerUpdate\UpdateHelper.exe"), Path.Combine(applicationLocation, "UpdateHelper.exe"), true);
                 }
 
                 update = true;
@@ -161,7 +165,10 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
         }
 
@@ -196,7 +203,13 @@ namespace NoodleManager
                     sw.Write("");
                 }
             }
-            catch { }
+            catch (Exception e)
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
+            }
             return ret;
         }
 
@@ -223,9 +236,12 @@ namespace NoodleManager
                     client.DownloadStringAsync(new Uri(path));
                 }
             }
-            catch
+            catch (Exception e)
             {
-
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
         }
 
@@ -393,9 +409,12 @@ namespace NoodleManager
                     client.DownloadStringAsync(new Uri(baseurl + beatmapsurl));
                 }
             }
-            catch
+            catch(Exception e)
             {
-
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
         }
 
@@ -439,17 +458,14 @@ namespace NoodleManager
         private void Rename()
         {
             string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-            applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
-            string name = applicationLocation.Substring(applicationLocation.LastIndexOf(@"\") + 1);
-            string dirLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+            applicationLocation = Path.GetDirectoryName(applicationLocation);
 
-            if (File.Exists(dirLocation + @"\NoodleManagerUpdate" + @"\UpdateHelper.exe"))
+            if (File.Exists(Path.Combine(applicationLocation, "UpdateHelper.exe")))
             {
                 var startInfo = new ProcessStartInfo();
 
-                startInfo.Arguments = "\"" + name + "\"";
-                startInfo.WorkingDirectory = dirLocation + @"\NoodleManagerUpdate";
-                startInfo.FileName = dirLocation + @"\NoodleManagerUpdate" + @"\UpdateHelper.exe";
+                startInfo.WorkingDirectory = applicationLocation;
+                startInfo.FileName = Path.Combine(applicationLocation, "UpdateHelper.exe");
 
                 Process proc = Process.Start(startInfo);
             }
@@ -461,7 +477,7 @@ namespace NoodleManager
             {
                 this.searchText.Text = "";
                 GlobalVariables.StopPlayback();
-                if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+                if (!Directory.Exists(Path.Combine(settingsMenu.textBox1.Text, @"CustomSongs\")))
                 {
                     ShowSettings();
                 }
@@ -495,7 +511,7 @@ namespace NoodleManager
             {
                 this.searchText.Text = "";
                 GlobalVariables.StopPlayback();
-                if (!Directory.Exists(settingsMenu.textBox1.Text + @"\CustomSongs\"))
+                if (!Directory.Exists(Path.Combine(settingsMenu.textBox1.Text, @"CustomSongs\")))
                 {
                     ShowSettings();
                 }

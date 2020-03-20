@@ -323,9 +323,12 @@ namespace NoodleManager
                 this.progressBar1.Visible = true;
                 this.Deactivate();
             }
-            catch
+            catch (Exception e)
             {
-
+                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
         }
 

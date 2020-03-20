@@ -22,9 +22,9 @@ namespace DownloadHelper
                     Console.WriteLine(id);
 
                     string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-                    string directory = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
+                    string directory = Path.GetDirectoryName(applicationLocation);
 
-                    using (StreamWriter sw = new StreamWriter(directory + @"\ToDownload.txt", true))
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(directory, "ToDownload.txt"), true))
                     {
                         sw.WriteLine(id);
                     }
@@ -43,7 +43,7 @@ namespace DownloadHelper
                         var startInfo = new ProcessStartInfo();
 
                         startInfo.WorkingDirectory = directory;
-                        startInfo.FileName = directory + @"\NoodleManager.exe";
+                        startInfo.FileName = Path.Combine(directory, "NoodleManager.exe");
 
                         Process proc = Process.Start(startInfo);
 
@@ -54,7 +54,10 @@ namespace DownloadHelper
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                    {
+                        sw.WriteLine(e.ToString());
+                    }
 
                 }
                 Console.ReadLine();
