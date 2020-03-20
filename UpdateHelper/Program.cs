@@ -17,6 +17,8 @@ namespace UpdateHelper
         {
             try
             {
+                Thread.Sleep(1000);
+
                 string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
                 applicationLocation = Path.GetDirectoryName(applicationLocation);
                 string dirLocation = Path.GetDirectoryName(applicationLocation);
@@ -29,9 +31,9 @@ namespace UpdateHelper
                     }
                 }
 
-                Directory.Delete(dirLocation + @"\NoodleManagerUpdate", true);
-
                 Thread.Sleep(3000);
+
+                Directory.Delete(dirLocation + @"\NoodleManagerUpdate", true);
 
                 var startInfo = new ProcessStartInfo();
 
