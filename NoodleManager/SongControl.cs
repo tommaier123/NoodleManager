@@ -325,7 +325,7 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }

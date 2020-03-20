@@ -54,7 +54,7 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }
@@ -148,14 +148,14 @@ namespace NoodleManager
 
                 if (File.Exists(Path.Combine(dirLocation, @"NoodleManagerUpdate\UpdateHelper.exe")))
                 {
-                    //File.Copy(Path.Combine(dirLocation, @"NoodleManagerUpdate\UpdateHelper.exe"), Path.Combine(applicationLocation, "UpdateHelper.exe"), true);
+                    File.Copy(Path.Combine(dirLocation, @"NoodleManagerUpdate\UpdateHelper.exe"), Path.Combine(applicationLocation, "UpdateHelper.exe"), true);
                 }
 
                 update = true;
 
                 Thread thread1 = new Thread(() =>
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(2000);
                     this.Invoke((MethodInvoker)delegate
                     {
                         this.Close();
@@ -165,7 +165,7 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }
@@ -205,7 +205,7 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }
@@ -238,7 +238,7 @@ namespace NoodleManager
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }
@@ -409,9 +409,9 @@ namespace NoodleManager
                     client.DownloadStringAsync(new Uri(baseurl + beatmapsurl));
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }
@@ -457,17 +457,27 @@ namespace NoodleManager
 
         private void Rename()
         {
-            string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-            applicationLocation = Path.GetDirectoryName(applicationLocation);
-
-            if (File.Exists(Path.Combine(applicationLocation, "UpdateHelper.exe")))
+            try
             {
-                var startInfo = new ProcessStartInfo();
+                string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                applicationLocation = Path.GetDirectoryName(applicationLocation);
 
-                startInfo.WorkingDirectory = applicationLocation;
-                startInfo.FileName = Path.Combine(applicationLocation, "UpdateHelper.exe");
+                if (File.Exists(Path.Combine(applicationLocation, "UpdateHelper.exe")))
+                {
+                    var startInfo = new ProcessStartInfo();
 
-                Process proc = Process.Start(startInfo);
+                    startInfo.WorkingDirectory = applicationLocation;
+                    startInfo.FileName = Path.Combine(applicationLocation, "UpdateHelper.exe");
+
+                    Process proc = Process.Start(startInfo);
+                }
+            }
+            catch (Exception e)
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -29,10 +30,19 @@ namespace UpdateHelper
                 }
 
                 Directory.Delete(dirLocation + @"\NoodleManagerUpdate", true);
+
+                Thread.Sleep(3000);
+
+                var startInfo = new ProcessStartInfo();
+
+                startInfo.WorkingDirectory = applicationLocation;
+                startInfo.FileName = Path.Combine(applicationLocation, "NoodleManager.exe");
+
+                Process proc = Process.Start(startInfo);
             }
             catch (Exception e)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(System.Reflection.Assembly.GetEntryAssembly().Location, "Log.txt"), true))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
                     sw.WriteLine(e.ToString());
                 }
