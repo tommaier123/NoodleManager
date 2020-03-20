@@ -147,13 +147,6 @@ namespace NoodleManager
                     Directory.Move(applicationLocation + @"\CustomSongs", dirLocation + @"\NoodleManagerUpdate\CustomSongs");
                 }
 
-                if (File.Exists(dirLocation + @"\rename.bat"))
-                {
-                    File.Delete(dirLocation + @"\rename.bat");
-                }
-
-                File.Copy(applicationLocation + @"\rename.bat", dirLocation + @"\rename.bat");
-
                 update = true;
 
                 Thread thread1 = new Thread(() =>
@@ -450,13 +443,16 @@ namespace NoodleManager
             string name = applicationLocation.Substring(applicationLocation.LastIndexOf(@"\") + 1);
             string dirLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\"));
 
-            Process pushProcess = new Process();
-            pushProcess.StartInfo.UseShellExecute = true;
-            pushProcess.StartInfo.RedirectStandardOutput = false;
-            pushProcess.StartInfo.WorkingDirectory = dirLocation;
-            pushProcess.StartInfo.FileName = dirLocation + @"\rename.bat";
-            pushProcess.StartInfo.Arguments = "\"" + applicationLocation + "\"" + " " + "\"" + name + "\"";
-            pushProcess.Start();
+            if (File.Exists(dirLocation + @"\NoodleManagerUpdate" + @"\UpdateHelper.exe"))
+            {
+                var startInfo = new ProcessStartInfo();
+
+                startInfo.Arguments = "\"" + name + "\"";
+                startInfo.WorkingDirectory = dirLocation + @"\NoodleManagerUpdate";
+                startInfo.FileName = dirLocation + @"\NoodleManagerUpdate" + @"\UpdateHelper.exe";
+
+                Process proc = Process.Start(startInfo);
+            }
         }
 
         private void Songs_Click(object sender, EventArgs e)
