@@ -98,5 +98,10 @@ namespace NoodleManager
                 pushProcess.WaitForExit();
             }
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://teespring.com/stores/synthriderz");
+        }
     }
 }
