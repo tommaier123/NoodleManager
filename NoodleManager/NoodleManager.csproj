@@ -99,6 +99,12 @@
     <Compile Include="ErrorDialog.Designer.cs">
       <DependentUpon>ErrorDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="TwitchCredentialsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TwitchCredentialsWindow.Designer.cs">
+      <DependentUpon>TwitchCredentialsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </Compile>
     <EmbeddedResource Include="ErrorDialog.resx">
       <DependentUpon>ErrorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TwitchCredentialsWindow.resx">
+      <DependentUpon>TwitchCredentialsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -226,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon-nm.ico" />
+    <None Include="Resources\%24this.Icon.ico" />
     <None Include="Resources\stop_u.png" />
     <None Include="Resources\stop_s.png" />
     <None Include="Resources\search.png" />

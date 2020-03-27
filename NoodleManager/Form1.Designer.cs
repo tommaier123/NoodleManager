@@ -313,7 +313,7 @@ namespace NoodleManager
             this.modMenu.Enabled = false;
             this.modMenu.Location = new System.Drawing.Point(10, 80);
             this.modMenu.Name = "modMenu";
-            this.modMenu.Size = new System.Drawing.Size(900, 498);
+            this.modMenu.Size = new System.Drawing.Size(890, 498);
             this.modMenu.TabIndex = 0;
             this.modMenu.TabStop = false;
             this.modMenu.Visible = false;
@@ -328,7 +328,7 @@ namespace NoodleManager
             this.settingsMenu.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.settingsMenu.Location = new System.Drawing.Point(10, 80);
             this.settingsMenu.Name = "settingsMenu";
-            this.settingsMenu.Size = new System.Drawing.Size(900, 498);
+            this.settingsMenu.Size = new System.Drawing.Size(890, 498);
             this.settingsMenu.TabIndex = 0;
             this.settingsMenu.TabStop = false;
             this.settingsMenu.Visible = false;
