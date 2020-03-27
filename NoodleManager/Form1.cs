@@ -114,7 +114,7 @@ namespace NoodleManager
                 this.songMenu.Focus();
                 if (ReadDownloadFile() == false)
                 {
-                    DownloadString(baseurl + beatmapsurl);
+                    DownloadString(baseurl + beatmapsurl +"&&sort=published_at,DESC");
                 }
             }
         }
@@ -413,7 +413,7 @@ namespace NoodleManager
                     {
                         downloadMarker.Add(client);
                     }
-                    client.DownloadStringAsync(new Uri(baseurl + beatmapsurl));
+                    client.DownloadStringAsync(new Uri(baseurl + beatmapsurl + "&&sort=published_at,DESC"));
                 }
             }
             catch (Exception e)
@@ -516,7 +516,7 @@ namespace NoodleManager
                     this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
                     this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
-                    DownloadString(baseurl + beatmapsurl);
+                    DownloadString(baseurl + beatmapsurl+ "&&sort=published_at,DESC");
                     this.songMenu.Focus();
                 }
             }
@@ -620,7 +620,7 @@ namespace NoodleManager
                 mode = "artist";
             }
 
-            DownloadString(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text);
+            DownloadString(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text+ "&&sort=published_at,DESC");
         }
 
         protected override void WndProc(ref Message m)//using the windows defaut resize with a borderless window
