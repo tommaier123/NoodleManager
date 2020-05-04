@@ -33,21 +33,23 @@ namespace NoodleManager
             }
             else
             {
-                string reg = Encoding.Default.GetString((byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", ""));
-                reg = string.Concat(reg.Split(Path.GetInvalidPathChars()));
-                if (Directory.Exists(Path.Combine(reg, @"CustomSongs\")))
+                byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
+                if (tmp != null)
                 {
-                    this.textBox1.Text = reg;
-                }
-                else
-                {
-                    this.textBox1.Text = @"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders";
-
-                    if (!Directory.Exists(Path.Combine(this.textBox1.Text, @"CustomSongs\")))
+                    string reg = Encoding.Default.GetString(tmp);
+                    reg = string.Concat(reg.Split(Path.GetInvalidPathChars()));
+                    if (Directory.Exists(Path.Combine(reg, @"CustomSongs\")))
                     {
-                        this.textBox1.BackColor = System.Drawing.Color.Red;
-                        return false;
+                        this.textBox1.Text = reg;
+                        return true;
                     }
+                }
+                this.textBox1.Text = @"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders";
+
+                if (!Directory.Exists(Path.Combine(this.textBox1.Text, @"CustomSongs\")))
+                {
+                    this.textBox1.BackColor = System.Drawing.Color.Red;
+                    return false;
                 }
             }
             return true;

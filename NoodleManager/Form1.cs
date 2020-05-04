@@ -92,9 +92,13 @@ namespace NoodleManager
 
             if (!Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
             {
-                string reg = Encoding.Default.GetString((byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", ""));
-                Properties.Settings.Default.path = string.Concat(reg.Split(Path.GetInvalidPathChars()));
-                Properties.Settings.Default.Save();
+                byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
+                if (tmp != null)
+                {
+                    string reg = Encoding.Default.GetString(tmp);
+                    Properties.Settings.Default.path = string.Concat(reg.Split(Path.GetInvalidPathChars()));
+                    Properties.Settings.Default.Save();
+                }
             }
 
             if (!Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
@@ -114,7 +118,7 @@ namespace NoodleManager
                 this.songMenu.Focus();
                 if (ReadDownloadFile() == false)
                 {
-                    DownloadString(baseurl + beatmapsurl +"&&sort=published_at,DESC");
+                    DownloadString(baseurl + beatmapsurl + "&&sort=published_at,DESC");
                 }
             }
         }
@@ -516,7 +520,7 @@ namespace NoodleManager
                     this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
                     this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
-                    DownloadString(baseurl + beatmapsurl+ "&&sort=published_at,DESC");
+                    DownloadString(baseurl + beatmapsurl + "&&sort=published_at,DESC");
                     this.songMenu.Focus();
                 }
             }
@@ -620,7 +624,7 @@ namespace NoodleManager
                 mode = "artist";
             }
 
-            DownloadString(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text+ "&&sort=published_at,DESC");
+            DownloadString(baseurl + beatmapsurl + "?" + mode + "=" + this.searchText.Text + "&&sort=published_at,DESC");
         }
 
         protected override void WndProc(ref Message m)//using the windows defaut resize with a borderless window
