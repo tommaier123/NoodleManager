@@ -25,51 +25,62 @@ namespace NoodleManager
 
         public bool Check()
         {
-            this.textBox1.BackColor = System.Drawing.Color.Red;
-
-            if (Path.GetDirectoryName(this.textBox1.Text) == "CustomSongs")
+            try
             {
-                this.textBox1.Text = Directory.GetParent(this.textBox1.Text).FullName;
-            }
+                this.textBox1.BackColor = System.Drawing.Color.Red;
 
-            if (!Directory.Exists(Path.Combine(this.textBox1.Text, @"CustomSongs\")))
-            {
-                if (Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
+                if (!String.IsNullOrEmpty(this.textBox1.Text) && Path.GetDirectoryName(this.textBox1.Text) == "CustomSongs")
                 {
-                    this.textBox1.Text = Properties.Settings.Default.path;
+                    this.textBox1.Text = Directory.GetParent(this.textBox1.Text).FullName;
                 }
-                else
+
+                if (String.IsNullOrEmpty(this.textBox1.Text) || !Directory.Exists(Path.Combine(this.textBox1.Text, @"CustomSongs\")))
                 {
-                    bool check = false;
-                    byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
-                    if (tmp != null)
+                    if (!String.IsNullOrEmpty(Properties.Settings.Default.path) && Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
                     {
-                        string reg = Encoding.Default.GetString(tmp);
-                        reg = string.Concat(reg.Split(Path.GetInvalidPathChars()));
-                        if (Directory.Exists(Path.Combine(reg, @"CustomSongs\")))
+                        this.textBox1.Text = Properties.Settings.Default.path;
+                    }
+                    else
+                    {
+                        bool check = false;
+                        byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
+                        if (tmp != null)
                         {
-                            this.textBox1.Text = reg;
-                            check = true;
+                            string reg = Encoding.Default.GetString(tmp);
+                            reg = string.Concat(reg.Split(Path.GetInvalidPathChars()));
+                            if (!String.IsNullOrEmpty(reg) && Directory.Exists(Path.Combine(reg, @"CustomSongs\")))
+                            {
+                                this.textBox1.Text = reg;
+                                check = true;
+                            }
+                        }
+                        if (!check)
+                        {
+                            if (Directory.Exists(@"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders\CustomSongs\"))
+                            {
+                                this.textBox1.Text = @"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders\";
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
-                    if (!check)
-                    {
-                        if (Directory.Exists(@"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders\CustomSongs\"))
-                        {
-                            this.textBox1.Text = @"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders\";
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
                 }
-            }
 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
-            Properties.Settings.Default.path = string.Concat(this.textBox1.Text.Split(Path.GetInvalidPathChars()));
-            Properties.Settings.Default.Save();
-            return true;
+                this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+                Properties.Settings.Default.path = string.Concat(this.textBox1.Text.Split(Path.GetInvalidPathChars()));
+                Properties.Settings.Default.Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
+                {
+                    sw.WriteLine(e.ToString());
+                }
+                return false;
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)

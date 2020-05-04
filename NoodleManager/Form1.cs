@@ -38,7 +38,7 @@ namespace NoodleManager
                 Octokit.GitHubClient github = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("NoodleManager"));
                 Octokit.Release latest = github.Repository.Release.GetLatest("tommaier123", "NoodleManager").Result;
 
-                if (GlobalVariables.TagName != latest.TagName)
+                if (Int32.Parse(GlobalVariables.TagName.Substring(1).Replace(".", "")) < Int32.Parse(latest.TagName.Substring(1).Replace(".", "")))
                 {
                     ErrorDialog errorDialog = new ErrorDialog("New Update to " + latest.TagName + " available:" + Environment.NewLine + Environment.NewLine + latest.Body + Environment.NewLine + Environment.NewLine + "Do you want to Download it?");
                     DialogResult result = errorDialog.ShowDialog();
@@ -96,13 +96,16 @@ namespace NoodleManager
             }
             else
             {
-                watcher = new FileSystemWatcher();
-                string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-                watcher.Path = "./";
-                watcher.NotifyFilter = NotifyFilters.LastWrite;
-                watcher.Filter = "ToDownload.txt";
-                watcher.Changed += OnFileChanged;
-                watcher.EnableRaisingEvents = true;
+                if (File.Exists("ToDownload.txt"))
+                {
+                    watcher = new FileSystemWatcher();
+                    string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                    watcher.Path = "./";
+                    watcher.NotifyFilter = NotifyFilters.LastWrite;
+                    watcher.Filter = "ToDownload.txt";
+                    watcher.Changed += OnFileChanged;
+                    watcher.EnableRaisingEvents = true;
+                }
 
                 this.songMenu.Focus();
                 if (ReadDownloadFile() == false)
@@ -487,7 +490,7 @@ namespace NoodleManager
             {
                 this.searchText.Text = "";
                 GlobalVariables.StopPlayback();
-                
+
                 if (!settingsMenu.Check())
                 {
                     ShowSettings();
@@ -743,20 +746,30 @@ namespace NoodleManager
 
         private void RegisterUriScheme()
         {
-            using (var key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Classes\\" + "synthriderz"))
+            try
             {
-                string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
-                applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\")) + @"\DownloadHelper.exe";
-                Console.WriteLine(applicationLocation);
-                key.SetValue("", "URL:" + "Synthriderz");
-                key.SetValue("URL Protocol", "");
-                using (var defaultIcon = key.CreateSubKey("DefaultIcon"))
+                using (var key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Classes\\" + "synthriderz"))
                 {
-                    defaultIcon.SetValue("", applicationLocation + ",1");
+                    string applicationLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
+                    applicationLocation = applicationLocation.Substring(0, applicationLocation.LastIndexOf(@"\")) + @"\DownloadHelper.exe";
+                    Console.WriteLine(applicationLocation);
+                    key.SetValue("", "URL:" + "Synthriderz");
+                    key.SetValue("URL Protocol", "");
+                    using (var defaultIcon = key.CreateSubKey("DefaultIcon"))
+                    {
+                        defaultIcon.SetValue("", applicationLocation + ",1");
+                    }
+                    using (var commandKey = key.CreateSubKey(@"shell\open\command"))
+                    {
+                        commandKey.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
+                    }
                 }
-                using (var commandKey = key.CreateSubKey(@"shell\open\command"))
+            }
+            catch (Exception e)
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Log.txt"), true))
                 {
-                    commandKey.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
+                    sw.WriteLine(e.ToString());
                 }
             }
         }
