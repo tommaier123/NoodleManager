@@ -25,33 +25,50 @@ namespace NoodleManager
 
         public bool Check()
         {
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            this.textBox1.BackColor = System.Drawing.Color.Red;
 
-            if (Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
+            if (Path.GetDirectoryName(this.textBox1.Text) == "CustomSongs")
             {
-                this.textBox1.Text = Properties.Settings.Default.path;
+                this.textBox1.Text = Directory.GetParent(this.textBox1.Text).FullName;
             }
-            else
+
+            if (!Directory.Exists(Path.Combine(this.textBox1.Text, @"CustomSongs\")))
             {
-                byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
-                if (tmp != null)
+                if (Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
                 {
-                    string reg = Encoding.Default.GetString(tmp);
-                    reg = string.Concat(reg.Split(Path.GetInvalidPathChars()));
-                    if (Directory.Exists(Path.Combine(reg, @"CustomSongs\")))
+                    this.textBox1.Text = Properties.Settings.Default.path;
+                }
+                else
+                {
+                    bool check = false;
+                    byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
+                    if (tmp != null)
                     {
-                        this.textBox1.Text = reg;
-                        return true;
+                        string reg = Encoding.Default.GetString(tmp);
+                        reg = string.Concat(reg.Split(Path.GetInvalidPathChars()));
+                        if (Directory.Exists(Path.Combine(reg, @"CustomSongs\")))
+                        {
+                            this.textBox1.Text = reg;
+                            check = true;
+                        }
+                    }
+                    if (!check)
+                    {
+                        if (Directory.Exists(@"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders\CustomSongs\"))
+                        {
+                            this.textBox1.Text = @"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders\";
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
-                this.textBox1.Text = @"C:\Program Files (x86)\Steam\steamapps\common\SynthRiders";
-
-                if (!Directory.Exists(Path.Combine(this.textBox1.Text, @"CustomSongs\")))
-                {
-                    this.textBox1.BackColor = System.Drawing.Color.Red;
-                    return false;
-                }
             }
+
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(27)))), ((int)(((byte)(31)))));
+            Properties.Settings.Default.path = string.Concat(this.textBox1.Text.Split(Path.GetInvalidPathChars()));
+            Properties.Settings.Default.Save();
             return true;
         }
 
@@ -72,7 +89,7 @@ namespace NoodleManager
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(this.textBox1.Text + @"\CustomSongs\"))
+            if (Check())
             {
                 Process getProcess = new Process();
                 getProcess.StartInfo.UseShellExecute = false;
@@ -101,7 +118,8 @@ namespace NoodleManager
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (this.textBox1.Text == "" || !Directory.Exists(this.textBox1.Text + @"\CustomSongs\"))
+
+            if (this.textBox1.Text == "" || !Check())
             {
                 Directory.CreateDirectory("CustomSongs");
                 this.textBox1.Text = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -120,7 +138,8 @@ namespace NoodleManager
 
         private void button7_Click(object sender, EventArgs e)
         {
-            if (File.Exists(this.textBox1.Text + @"\favorites.bin"))
+
+            if (Check() && File.Exists(this.textBox1.Text + @"\favorites.bin"))
             {
                 Process pushProcess = new Process();
                 pushProcess.StartInfo.UseShellExecute = false;
@@ -141,9 +160,6 @@ namespace NoodleManager
         {
             if (Check())
             {
-                Properties.Settings.Default.path = string.Concat(this.textBox1.Text.Split(Path.GetInvalidPathChars()));
-                Properties.Settings.Default.Save();
-
                 TwitchCredentialsWindow window = new TwitchCredentialsWindow();
                 window.Show();
             }

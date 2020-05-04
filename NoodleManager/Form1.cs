@@ -90,18 +90,7 @@ namespace NoodleManager
 
             this.searchText.KeyDown += new KeyEventHandler(this.SearchKeyDownCallback);
 
-            if (!Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
-            {
-                byte[] tmp = (byte[])Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Kluge Interactive\SynthRiders", "com.synthriders.installpath_h4259148619", "");
-                if (tmp != null)
-                {
-                    string reg = Encoding.Default.GetString(tmp);
-                    Properties.Settings.Default.path = string.Concat(reg.Split(Path.GetInvalidPathChars()));
-                    Properties.Settings.Default.Save();
-                }
-            }
-
-            if (!Directory.Exists(Path.Combine(Properties.Settings.Default.path, @"CustomSongs\")))
+            if (!settingsMenu.Check())
             {
                 ShowSettings();
             }
@@ -118,7 +107,7 @@ namespace NoodleManager
                 this.songMenu.Focus();
                 if (ReadDownloadFile() == false)
                 {
-                    DownloadString(baseurl + beatmapsurl + "&&sort=published_at,DESC");
+                    Search();
                 }
             }
         }
@@ -417,7 +406,7 @@ namespace NoodleManager
                     {
                         downloadMarker.Add(client);
                     }
-                    client.DownloadStringAsync(new Uri(baseurl + beatmapsurl + "&&sort=published_at,DESC"));
+                    client.DownloadStringAsync(new Uri(baseurl + beatmapsurl + "?q=&&sort=published_at,DESC"));
                 }
             }
             catch (Exception e)
@@ -498,15 +487,13 @@ namespace NoodleManager
             {
                 this.searchText.Text = "";
                 GlobalVariables.StopPlayback();
-                if (!Directory.Exists(Path.Combine(settingsMenu.textBox1.Text, @"CustomSongs\")))
+                
+                if (!settingsMenu.Check())
                 {
                     ShowSettings();
                 }
                 else
                 {
-                    Properties.Settings.Default.path = string.Concat(settingsMenu.textBox1.Text.Split(Path.GetInvalidPathChars()));
-                    Properties.Settings.Default.Save();
-
                     songMenu.Enabled = true;
                     songMenu.Visible = true;
 
@@ -520,7 +507,7 @@ namespace NoodleManager
                     this.modsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(170)))), ((int)(((byte)(73)))), ((int)(((byte)(224)))));
                     this.SettingsButton.Image = global::NoodleManager.Properties.Resources.settings_u;
 
-                    DownloadString(baseurl + beatmapsurl + "&&sort=published_at,DESC");
+                    Search();
                     this.songMenu.Focus();
                 }
             }
@@ -532,15 +519,12 @@ namespace NoodleManager
             {
                 this.searchText.Text = "";
                 GlobalVariables.StopPlayback();
-                if (!Directory.Exists(Path.Combine(settingsMenu.textBox1.Text, @"CustomSongs\")))
+                if (!settingsMenu.Check())
                 {
                     ShowSettings();
                 }
                 else
                 {
-                    Properties.Settings.Default.path = string.Concat(settingsMenu.textBox1.Text.Split(Path.GetInvalidPathChars()));
-                    Properties.Settings.Default.Save();
-
                     songMenu.Enabled = false;
                     songMenu.Visible = false;
 

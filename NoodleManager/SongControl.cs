@@ -289,7 +289,7 @@ namespace NoodleManager
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
             {
-                if (Properties.Settings.Default.path != null)
+                if (Directory.Exists(Properties.Settings.Default.path))
                 {
                     if (this.active)
                     {
