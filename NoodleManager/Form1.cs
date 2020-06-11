@@ -231,6 +231,7 @@ namespace NoodleManager
             {
                 using (var client = new WebClient())
                 {
+                    client.Encoding = Encoding.UTF8;
                     client.DownloadStringCompleted += DownloadCompleteCallback;
                     if (download)
                     {
@@ -253,8 +254,9 @@ namespace NoodleManager
             if (!e.Cancelled && e.Error == null && e.Result != null && e.Result != "")
             {
                 GlobalVariables.Available = 0;
-                byte[] bytes = Encoding.Default.GetBytes(e.Result);
-                string content = Encoding.UTF8.GetString(bytes);
+
+                string content = e.Result;
+
                 SongInfo[] items = new SongInfo[1];
                 try
                 {
@@ -403,8 +405,8 @@ namespace NoodleManager
             {
                 using (var client = new WebClient())
                 {
+                    client.Encoding = Encoding.UTF8;
                     client.DownloadStringCompleted += DownloadCompleteCallback;
-
                     if (download)
                     {
                         downloadMarker.Add(client);
