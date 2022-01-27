@@ -1,1 +1,1 @@
-adb shell ls sdcard/Android/data/com.kluge.SynthRiders/files/CustomSongs
+adb shell ls sdcard/SynthRidersUC/CustomSongs
